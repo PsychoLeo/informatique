@@ -1,0 +1,29 @@
+<html>
+
+	<head>
+	<title> Test ; chapter 2 : HTML and CSS </title>
+	</head>
+	
+	<body>
+	
+	<h1> Beautiful language ! </h1>
+	
+		<p> For the moment, I <em> love </em> this programming language. <abbr title = "Hypertext Markup Language"> HTML </abbr> is very simple to understand (intuitive). </p>
+		<p> On the other hand, it is very <del> difficult </del> simple to use. <i> Memelord </i> is <b> truly powerful </b>, and as he said recently : <q> HTML is doodoo </q> </p>
+		
+		<hr />
+	
+		<address> 
+			
+			<p> <a href = "mailto:v.bouhey@franklinparis.com">
+			leopold.bernard.leo@gmail.com </a> </p>
+			<p> Léopold Bernard </p>
+			
+		</address>
+	
+	</body>
+	
+</html>
+
+<!-- This game is doodoo, this game is trash -->
+

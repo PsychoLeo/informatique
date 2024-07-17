@@ -1,0 +1,13 @@
+https://www.youtube.com/watch?v=rop0W4QDOUI
+
+Convention labyrinthe:
+"#" = mur
+"O" (lettre o majuscule) =  début ou fin
+--> point de départ nécessairement en haut (première ligne du labyrinthe)
+" " espace = champ libre
+"o" = chemin le plus court 
+
+Solve:
+FIFO avec tous les cas
+Une fonction qui vérifie quelles directions on peut prendre à partir d'un point
+Fonction qui trouve le point de départ

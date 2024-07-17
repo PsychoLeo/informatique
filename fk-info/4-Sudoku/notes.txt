@@ -1,0 +1,10 @@
+Solve sudoku:
+    https://www.developpez.net/forums/d812356/autres-langages/python/general-python/sudoku-python/
+    https://www.youtube.com/watch?v=G_UYXzGuqvM
+
+
+To do list:
+1. Solver
+2. Interface graphique
+3. Programme pour créer des sudokus
+

@@ -1,0 +1,30 @@
+Ford-Fulkerson problem links :
+
+https://www.geeksforgeeks.org/ford-fulkerson-algorithm-for-maximum-flow-problem/
+# coded ford fulkerson algorithm
+https://www.geeksforgeeks.org/max-flow-problem-introduction/
+# maxflow description
+
+https://stackoverflow.com/questions/9378968/find-minimum-cut-in-a-graph-such-that-given-vertices-are-disconnected
+# see how to solve problem
+
+https://en.wikipedia.org/wiki/Maximum_flow_problem
+# maxflow problem description
+
+https://en.wikipedia.org/wiki/Edmonds%E2%80%93Karp_algorithm
+# edmond-Karp solution
+
+https://en.wikipedia.org/wiki/Ford%E2%80%93Fulkerson_algorithm
+# Ford-Fulkerson solution
+
+http://myitlearnings.com/from-a-given-graph-delete-minimum-number-of-edges-such-that-there-is-no-path-from-start-node-to-end-node/
+# Number of vertices to delete (not which ones)
+
+https://brilliant.org/wiki/ford-fulkerson-algorithm/
+# Ford-Fulkerson explanation
+
+https://courses.ex-machina.ma/downloads/MIAGE2/S4/maths_pour_info/ALG_Fulkerson_Hongroise.pdf
+# ford fulkerson comprendre
+
+https://cs.stackexchange.com/questions/55041/residual-graph-in-maximum-flow
+# ford fulkerson / maximum flow

@@ -1,0 +1,9 @@
+Date : April 12, 2021
+Number of moves : 4
+White Name : TheNameOfWhoPlaysWhites
+Black Name : TheNameOfWhoPlaysBlacks
+=== RESUME ===
+1 pE4 PE5
+2 fC4 PD6
+3 dF3 CC6
+4 dF7x#

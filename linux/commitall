@@ -1,0 +1,40 @@
+cd ../Algorithmique/
+git add .
+git commit -m "commit all command"
+git push -u origin master
+cd ../Arduino/
+git add .
+git commit -m "commit all command"
+git push -u origin master
+cd ../C/
+git add .
+git commit -m "commit all command"
+git push -u origin master
+cd ../C++/
+git add .
+git commit -m "commit all command"
+git push -u origin master
+cd ../Club_Informatique/
+git add .
+git commit -m "commit all command"
+git push -u origin master
+cd ../Competitions/
+git add .
+git commit -m "commit all command"
+git push -u origin master
+cd ../HTML/
+git add .
+git commit -m "commit all command"
+git push -u origin master
+cd ../Java/
+git add .
+git commit -m "commit all command"
+git push -u origin master
+cd ../Others/Certificates/
+git add .
+git commit -m "commit all command"
+git push -u origin master
+cd ../../Python/
+git add .
+git commit -m "commit all command"
+git push -u origin master

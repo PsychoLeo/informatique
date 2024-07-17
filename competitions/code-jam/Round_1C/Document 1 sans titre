@@ -1,0 +1,21 @@
+def solve():
+    N, K = map(int, cin().split())
+    p = 0
+    l = list(map(int, cin().split()))
+    l.sort() # On trie les tickets
+    delta = [l[0]-1] # Partie gauche
+    for first, second in zip(l, l[1:]):
+        delta.append((second-first)//2)
+
+    delta.append(K-tickets[-1]) # Partie droite
+    delta.sort()[::-1]
+    # On cherche désormais les 2 minimaux
+    return sum(delta[:2])/K
+
+if __name__ == '__main__':
+    import sys
+    cin = sys.stdin.readline 
+    cout = sys.stdout.write
+    nbTests = int(input())
+    for t in range(1, nbTests+1):
+        cout(f"Case #{t}: {solve()}\n")
