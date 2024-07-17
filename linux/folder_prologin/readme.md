@@ -1,1 +1,0 @@
-https://prologin.org/contest/2021/qualification
