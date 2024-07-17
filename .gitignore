@@ -5,6 +5,8 @@
 **/out
 **/input
 
+**/.idea/
+
 # Ignore youtube folder
 python/youtube/
 
