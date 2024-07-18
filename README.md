@@ -3,9 +3,9 @@
 ## Table of contents
 
 1. [Introduction](#introduction)
-2. [Competitive programming](#cp)
+2. [Competitive programming](#competitive-programming)
 3. [Structure](#structure)
-4. [Links] (#links)
+4. [Links](#links)
 
 ## Introduction
 
@@ -41,10 +41,10 @@ In 2020, we set up an algorithmic club at our school with a friend and met regul
 The structure of the github is the following : 
 - **algorithmique** : progression on Codeforces, France IOI, Leetcode, Project Euler and the implementation of some algorithms
 - **arduino** : work and little projects realized with arduino
-- **autres** : coding certificates for Python, Java, C++ courses. The most valuable one is the MITx online course I did to learn Python3, but there are also a few others from Hackerrank or SoloLearn.
+- **autres** : coding certificates for Python, Java, C++ courses. The most valuable one is the MITx online course I did to learn Python3, but there are also a few others from Hackerrank or SoloLearn
 - **competitions** : programs submitted within contests such as the ones mentionned before
 - **cpp** : little projects and programs made in C++
-- **fk-info** : all projects made in our algorithmic club  
+- **fk-info** : all projects made in our algorithmic club in 2020/2021
 - **html** : small folder with HTML web pages
 - **java** : java programs for learning classes and OOP
 - **lessons** : stuff related to almost every folder mentioned, but only educational content
