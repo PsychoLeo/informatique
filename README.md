@@ -1,20 +1,60 @@
-Bonjour, j'ai 17 ans et suis actuellement en classe préparatoire (filière MPSI). Je suis depuis 3 ans passionné de programmation et depuis
-le début de cette année, je me suis interessé à l'algorithmique et ai participé à des nombreuses compétitions
-telles que Google Hash Code, Code Jam, Kick Start, Prologin (qualifié en finale), AGM, Algoréa (même si la plupart d'entre elles sont en cours de déroulement). De plus, je suis inscrit sur la plateforme d'entraînement aux Olympiades Internationales d'Informatique France IOI (26e des utilisateurs éligibles pour les Olympiades : http://www.france-ioi.org/user/perso.php?sLogin=leober), que j'apprécie particulièrement pour ses exercices sur divers sujets (dont mes préférés sont la programmation dynamique, les algorithmes semi-numériques et les arbres binaires) et sans laquelle je ne serais parvenu jusqu'ici. Ce qui m'intéresse dans l'algorithmique est la recherche de solutions à des problèmes et l'optimisation, que l'on retrouve sur un autre site que j'aime beaucoup : https://www.mathraining.be/.
+# Leopold BERNARD's Github page
 
-Ayant mis en place avec un ami un club d'algorithmique au sein de notre école, nous nous réunissons régulièrement en 
-visio-conférence afin d'implémenter des algorithmes (dont vous pouvez accéder au code source ici) ou de réaliser des
-projets. 
+## Table of contents
 
-Mon langage favori ? C++ (pour son efficacité et ses structures de données) mais suivi de près par Python (pour sa flexibilité, sa simplicité et SURTOUT sa gestion des grands nombres, dont j'ai souvent besoin en mathématiques). J'ai aussi fait du C, Ocaml, Java et HTML, mais je me suis surtout concentré sur le Python, ainsi que le C++ plus récemment. Je travaille depuis plus d'un an sur Linux (Ubuntu 18.04 - 20.04) et manie donc plutôt bien l'invite de commande. J'essaie depuis peu de me familiariser avec Vim, parce que j'ai longtemps été habitué aux environnement de programmation un peu lourds tels que Visual Studio Code, Sublime ou Pycharm.
+1. [Introduction](#introduction)
+2. [Competitive programming](#cp)
+3. [Structure](#structure)
+4. [Links] (#links)
 
-Les fichiers liés aux mathématiques et à la physique se situent dans le dossier d'algorithmique, python et du club d'informatique. Sur cette page GitHub figurent plusieurs projets et programmes divisés en multiples dossiers :
-- **algorithmique** (progression sur France-IOI ou Projet Euler, exercices en ligne, algorithmes implémentés) : dossier privé puisqu'il contient des solutions à certains problèmes
-- **python** (simulations physiques, graphiques avec matplotlib, intelligence artificielle, cryptographie, mathématiques, jeux avec pygame)
-- **club d'informatique** (résolveur de labyrinthe, graphes, algorithme de Gale-Shapley, résolveur de sudoku, algorithmes de la théorie des nombres, approximations de constantes mathématiques, algorithmes de tri, binome de Newton, jeu d'échecs en cours d'implémentation)
-- **competitions de programmation** (Hash Code, Prologin, Code Jam, Kick Start, Algorea, AGM) : dossier privé puisqu'il contient des solutions à certains problèmes de Prologin
-- programmes en **C++** et **Java**
-- **certificats** en Python, C++ ou Java (MIT, SoloLearn, HackerRank)
-- exercices du programme de **NSI**
+## Introduction
 
-Adresse mail personnelle : leo@mopili.com
+Hello, my name is Léopold and I am currently (2024) a student at Telecom Paris. I was born on the 3rd december 2003. I went through a "prepa" in Stanislas (MPSI, MP*) and studied mathematics, physics and computer science.
+
+I've been programming for about 5 years, mostly in **Python and C++**. At the beginning, I enjoyed Python and coding little projects, which has since then changed a lot because I prefer competitive programming and solving algorithmical problems using C++. I am currently on MACOS but I used Linux for about 4 years.
+
+## Competitive programming
+
+I participated in many competitive programming contests including :
+- **SWERC** (with a team at Telecom Paris)
+- Intern contest at Telecom Paris (__2nd__ place)
+- Google Hash Code
+- Google Code Jam
+- Google Kick Start
+- **Prologin** (a french CP contest, went to the finals)
+- Algorea
+- Codeforces contests
+
+Moreover, I was very active on the french platform **France-IOI** in 2020/2021.
+Here is a link to my profile page : http://www.france-ioi.org/user/perso.php?sLogin=leober. I am currently ranked __46th__ on the platform, which I particularly appreciate for its interesting problems, and without which I wouldn't have enjoyed CP so much. My favorite CP subjects are :
+- **Binary trees**
+- **Mathematical problems**
+- **Dynamic programming** (although I am not very good at it)
+
+What I love me about CP is the search for solutions to problems and optimization, which can be found on a mathematical olympiads page I really like: https://www.mathraining.be/. Figuring out a solution little by little and getting a program that passes all tests is a satisfaction that is difficult to find elsewhere.
+
+In 2020, we set up an algorithmic club at our school with a friend and met regularly by videoconference to implement algorithms or carry out projects (whose source code you can access here). 
+
+## Structure 
+
+
+The structure of the github is the following : 
+- **algorithmique** : progression on Codeforces, France IOI, Leetcode, Project Euler and the implementation of some algorithms
+- **arduino** : work and little projects realized with arduino
+- **autres** : coding certificates for Python, Java, C++ courses. The most valuable one is the MITx online course I did to learn Python3, but there are also a few others from Hackerrank or SoloLearn.
+- **competitions** : programs submitted within contests such as the ones mentionned before
+- **cpp** : little projects and programs made in C++
+- **fk-info** : all projects made in our algorithmic club  
+- **html** : small folder with HTML web pages
+- **java** : java programs for learning classes and OOP
+- **lessons** : stuff related to almost every folder mentioned, but only educational content
+- **linux** : small folder used when playing around with commands
+- **ocaml** : small folder with ocaml files, language I learned during my 2 years in prepa
+- **python** : all python work. Is subdivided into : simulations physiques, graphiques avec matplotlib, intelligence artificielle, cryptography, games (pygame), AI (sklearn mostly), maths, matplotlib, others, physics and web related programs
+
+## Links
+
+- Mail : [leopold.bernard.leo@gmail.com](mailto:leopold.bernard.leo@gmail.com)
+- France-IOI profile : http://www.france-ioi.org/user/perso.php?sLogin=leober
+- Codeforces profile : https://codeforces.com/profile/leopold.bernard.leo
+- Mathraining profile : https://www.mathraining.be/users/3877
