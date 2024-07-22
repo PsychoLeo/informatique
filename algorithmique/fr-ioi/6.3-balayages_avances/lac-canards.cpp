@@ -1,3 +1,8 @@
+/*
+* Author:  Léopold Bernard
+* Created: 19/07/2024 15:02:52
+*/
+
 #include <cstdio>
 #include <iostream>
 #include <algorithm>
@@ -61,9 +66,16 @@ typedef vector<vector<long long>> vvl;
 
 int main() {
 	ios_base::sync_with_stdio(false); cin.tie(0); cout.tie(0);
-	int t; cin >> t;
-	while (t--) {
-	
+	int n; cin >> n;
+	unordered_map<int, string> can;
+	set<int> canards;
+	rep(i, 0, n) {
+		string s;
+		int c, j; cin >> s >> c >> j;
+		canards.emplace(can);
+		can[c] = s;
+		int x = *(canards.begin()+j);
+		cout << can[x] << endl;
 	}
 	return 0;
 }

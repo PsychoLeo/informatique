@@ -1,3 +1,8 @@
+/*
+* Author:  Léopold Bernard
+* Created: 19/07/2024 17:29:16
+*/
+
 #include <cstdio>
 #include <iostream>
 #include <algorithm>
@@ -61,9 +66,23 @@ typedef vector<vector<long long>> vvl;
 
 int main() {
 	ios_base::sync_with_stdio(false); cin.tie(0); cout.tie(0);
-	int t; cin >> t;
-	while (t--) {
-	
+	int c; cin >> c;
+	map<int, int> v;
+	for (int i=0; i<c ; ++i) {
+		int x, y; cin >> x >> y;
+		if (x == 1) {
+			if (v.find(y) == v.end()) v[y] = 1;
+			else v[y]++;
+		}
+		else if (x == 2) {
+			if (v[y] == 1) v.erase(y);
+			else v[y]--;
+		}
+		else {
+			auto it = v.lower_bound(y);
+			if (it == v.begin()) cout << -1 << endl;
+			else cout << (--it)->first << endl;
+		}
 	}
 	return 0;
 }

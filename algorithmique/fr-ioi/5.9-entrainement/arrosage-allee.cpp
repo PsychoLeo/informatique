@@ -1,3 +1,8 @@
+/*
+* Author:  Léopold Bernard
+* Created: 22/07/2024 12:01:59
+*/
+
 #include <cstdio>
 #include <iostream>
 #include <algorithm>
@@ -27,14 +32,6 @@ using namespace std;
 #define sz(x) (int)(x).size()
 #define rep(i, a, b) for(int i=a; i<(b); ++i)
 
-template<class T> inline bool chmax(T& a, T b) { if (a < b) { a = b; return 1; } return 0; }
-template<class T> inline bool chmin(T& a, T b) { if (a > b) { a = b; return 1; } return 0; }
-
-template<class T> long long sum(const T& a){ return accumulate(a.begin(), a.end(), 0LL); }
-template<class T> auto min(const T& a){ return *min_element(a.begin(), a.end()); }
-template<class T> auto max(const T& a){ return *max_element(a.begin(), a.end()); }
-
-
 typedef vector<int> vi;
 typedef vector<double> vd;
 typedef vector<bool> vb;
@@ -59,11 +56,29 @@ typedef vector<vector<long long>> vvl;
 #define MOD 1000000007
 #define INF 
 
+int solve(int n, vector<pii> v) {
+    int c = 1;
+    int dist = v[0].se;
+    for (int i=1; i<n; ++i) {
+        pii p = v[i];
+        int L = p.fi - p.se;
+        int P = p.se;
+        if (L-P >= dist) {
+            ++c; dist = dist + 2*P;
+        }
+    }
+    return c;
+}
+
 int main() {
 	ios_base::sync_with_stdio(false); cin.tie(0); cout.tie(0);
-	int t; cin >> t;
-	while (t--) {
-	
-	}
+	int n; cin >> n;
+    vector<pii> v;
+    rep(i, 0, n) {
+        int L, P; cin >> L >> P;
+        v.pb(mp(L+P, P));
+    }
+    sort(all(v));
+    cout << solve(n, v) << endl;
 	return 0;
 }

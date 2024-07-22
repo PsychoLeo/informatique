@@ -1,3 +1,8 @@
+/*
+* Author:  Léopold Bernard
+* Created: 22/07/2024 10:50:54
+*/
+
 #include <cstdio>
 #include <iostream>
 #include <algorithm>
@@ -27,13 +32,6 @@ using namespace std;
 #define sz(x) (int)(x).size()
 #define rep(i, a, b) for(int i=a; i<(b); ++i)
 
-template<class T> inline bool chmax(T& a, T b) { if (a < b) { a = b; return 1; } return 0; }
-template<class T> inline bool chmin(T& a, T b) { if (a > b) { a = b; return 1; } return 0; }
-
-template<class T> long long sum(const T& a){ return accumulate(a.begin(), a.end(), 0LL); }
-template<class T> auto min(const T& a){ return *min_element(a.begin(), a.end()); }
-template<class T> auto max(const T& a){ return *max_element(a.begin(), a.end()); }
-
 
 typedef vector<int> vi;
 typedef vector<double> vd;
@@ -57,13 +55,35 @@ typedef vector<vector<long long>> vvl;
 #endif
 
 #define MOD 1000000007
-#define INF 
+
 
 int main() {
 	ios_base::sync_with_stdio(false); cin.tie(0); cout.tie(0);
-	int t; cin >> t;
-	while (t--) {
-	
-	}
+	int d, m; cin >> d >> m;
+    unordered_map<string, string> equiv;
+    rep(i, 0, d) {
+        string s; cin >> s;
+        if (sz(s) <= 3) equiv[s] = s;
+        else {
+            int l = sz(s);
+            string str = s.substr(1, l-2);
+            sort(all(str));
+            string t = s[0] + str + s[l-1];
+            equiv[t] = s;
+        }
+    }
+    rep(i, 0, m) {
+        if (i > 0 && (i % 10 == 0)) cout << "\n";
+        string s; cin >> s;
+        if (sz(s) <= 3) cout << equiv[s] << " ";
+        else {
+            int l = sz(s);
+            string str = s.substr(1, l-2);
+            sort(all(str));
+            string t = s[0] + str + s[l-1];
+            cout << equiv[t] << " ";
+        }
+    }
+    cout << endl;
 	return 0;
 }

@@ -1,3 +1,8 @@
+/*
+* Author:  Léopold Bernard
+* Created: 22/07/2024 14:27:27
+*/
+
 #include <cstdio>
 #include <iostream>
 #include <algorithm>
@@ -27,14 +32,6 @@ using namespace std;
 #define sz(x) (int)(x).size()
 #define rep(i, a, b) for(int i=a; i<(b); ++i)
 
-template<class T> inline bool chmax(T& a, T b) { if (a < b) { a = b; return 1; } return 0; }
-template<class T> inline bool chmin(T& a, T b) { if (a > b) { a = b; return 1; } return 0; }
-
-template<class T> long long sum(const T& a){ return accumulate(a.begin(), a.end(), 0LL); }
-template<class T> auto min(const T& a){ return *min_element(a.begin(), a.end()); }
-template<class T> auto max(const T& a){ return *max_element(a.begin(), a.end()); }
-
-
 typedef vector<int> vi;
 typedef vector<double> vd;
 typedef vector<bool> vb;
@@ -56,14 +53,41 @@ typedef vector<vector<long long>> vvl;
 #define debug(x)
 #endif
 
-#define MOD 1000000007
-#define INF 
+#define INF 20000000
+
+
+int solve(int l, int n, vi &h) {
+    vi next_sup(n, n); // prochain indice avec un élément strictement supérieur
+    h.pb(INF);
+    vector<pii> queue;
+    for (int i=0; i<n;) {
+        int j = i;
+        while (j < n && h[j+1] <= h[j]) { // tant que c'est décroissant
+            queue.pb(mp(j, h[j]));
+            ++j;
+        }
+        queue.pb(mp(j, h[j]));
+        while (!queue.empty() && queue.back().se < h[j+1]) {
+            pii p = queue.back();
+            queue.pop_back();
+            next_sup[p.fi] = j+1;
+        }
+        i = j+1;
+    }
+    // rep(i, 0, n) cout << next_sup[i] << " ";
+    int c = 0;
+    for (int i=0; i+l<n; ++i) {
+        if (h[i] == h[i+l] && next_sup[i] > i+l) {
+            ++c;
+        }
+    }
+    return c;
+}
 
 int main() {
 	ios_base::sync_with_stdio(false); cin.tie(0); cout.tie(0);
-	int t; cin >> t;
-	while (t--) {
-	
-	}
+	int l, n; cin >> l >> n;
+    vi h(n); rep(i, 0, n) cin >> h[i];
+    cout << solve(l, n, h) << endl;
 	return 0;
 }

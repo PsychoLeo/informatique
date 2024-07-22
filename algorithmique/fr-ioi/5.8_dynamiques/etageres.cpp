@@ -1,3 +1,8 @@
+/*
+* Author:  Léopold Bernard
+* Created: 22/07/2024 13:59:09
+*/
+
 #include <cstdio>
 #include <iostream>
 #include <algorithm>
@@ -27,13 +32,6 @@ using namespace std;
 #define sz(x) (int)(x).size()
 #define rep(i, a, b) for(int i=a; i<(b); ++i)
 
-template<class T> inline bool chmax(T& a, T b) { if (a < b) { a = b; return 1; } return 0; }
-template<class T> inline bool chmin(T& a, T b) { if (a > b) { a = b; return 1; } return 0; }
-
-template<class T> long long sum(const T& a){ return accumulate(a.begin(), a.end(), 0LL); }
-template<class T> auto min(const T& a){ return *min_element(a.begin(), a.end()); }
-template<class T> auto max(const T& a){ return *max_element(a.begin(), a.end()); }
-
 
 typedef vector<int> vi;
 typedef vector<double> vd;
@@ -59,11 +57,18 @@ typedef vector<vector<long long>> vvl;
 #define MOD 1000000007
 #define INF 
 
+int solve(int c, int r, vi &h) {
+
+}
+
 int main() {
 	ios_base::sync_with_stdio(false); cin.tie(0); cout.tie(0);
-	int t; cin >> t;
-	while (t--) {
-	
-	}
+	int c, r, n; cin >> c >> r >> n;
+    vi h(c, 0);
+    rep(i, 0, n) {
+        int ci, hi; cin >> ci >> hi;
+        h[ci] = max(h[ci], hi);
+    }
+    cout << solve(c, r, h) << endl;
 	return 0;
 }

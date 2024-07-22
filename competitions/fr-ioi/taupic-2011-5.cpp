@@ -1,3 +1,8 @@
+/*
+* Author:  Léopold Bernard
+* Created: 18/07/2024 16:58:47
+*/
+
 #include <cstdio>
 #include <iostream>
 #include <algorithm>
@@ -51,7 +56,7 @@ typedef vector<vector<long long>> vvl;
 
 #define DEBUG true
 #ifdef DEBUG
-#define debug(x) cout << #x << "=" << x << "\n";
+#define debug(x) cout << #x << "=" << x << "\n"
 #else
 #define debug(x)
 #endif
@@ -59,11 +64,50 @@ typedef vector<vector<long long>> vvl;
 #define MOD 1000000007
 #define INF 
 
+int solve(int n, vi &canwin, vi &a) {
+    int S = 0;
+    // canwin[i] vaut 1 si lorsque l'on joue avec i cailloux on a une stratégie gagnante
+    // on utilise le nombre le plus grand pour arriver à 0, c'est pour cela que canwin est rempli de 1
+    // complexité O(n*h^2) ~ 3e6 opérations max
+    int maxv = max(a);
+    for (int x: a) cout << x << endl;
+    for (int x=maxv+1; x<n; ++x) {
+        int c = 0;
+        for (int ai: a) {
+            c += canwin[x-ai];
+        }
+        if (c > 0) { // adversaire a une stratégie gagnante car un certain canwin[x-ai] > 0 
+            canwin[x] = 0;
+        }
+        else {
+            int p = 1;
+            for (int ai: a) {
+                int d = 0;
+                for (int aj: a) {
+                    if (x-ai-aj < 0) ++d;
+                    else if (canwin[x-ai-aj]) ++d;
+                }
+                if (d == 0) p = 0;
+            }
+            canwin[x] = p;
+        }
+    }
+    for (int x: canwin) cout << x << " ";
+    cout << endl;
+    for (int x: a) {
+        if (!canwin[n-x]) S += x;
+    }
+    return S;
+}
+
 int main() {
 	ios_base::sync_with_stdio(false); cin.tie(0); cout.tie(0);
-	int t; cin >> t;
-	while (t--) {
-	
-	}
+	int n; cin >> n;
+    vi dp(n, 1); vi a;
+    int number;
+    while (cin >> number) {
+        a.pb(number);
+    }
+    cout << solve(n, dp, a) << endl;
 	return 0;
 }

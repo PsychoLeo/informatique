@@ -1,3 +1,8 @@
+/*
+* Author:  Léopold Bernard
+* Created: 20/07/2024 13:21:00
+*/
+
 #include <cstdio>
 #include <iostream>
 #include <algorithm>
@@ -61,9 +66,6 @@ typedef vector<vector<long long>> vvl;
 
 int main() {
 	ios_base::sync_with_stdio(false); cin.tie(0); cout.tie(0);
-	int t; cin >> t;
-	while (t--) {
 	
-	}
 	return 0;
 }
