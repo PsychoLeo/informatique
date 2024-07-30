@@ -1,3 +1,8 @@
+/*
+* Author:  Léopold Bernard
+* Created: 29/07/2024 11:33:04
+*/
+
 #include <cstdio>
 #include <iostream>
 #include <algorithm>
@@ -26,7 +31,6 @@ using namespace std;
 #define all(c) (c).begin(), (c).end()
 #define sz(x) (int)(x).size()
 #define rep(i, a, b) for(int i=a; i<(b); ++i)
-#define nl "\n"
 
 template<class T> inline bool chmax(T& a, T b) { if (a < b) { a = b; return 1; } return 0; }
 template<class T> inline bool chmin(T& a, T b) { if (a > b) { a = b; return 1; } return 0; }
@@ -60,11 +64,17 @@ typedef vector<vector<long long>> vvl;
 #define MOD 1000000007
 #define INF 
 
+ll solve(int n, int x, vi &a) {
+    // find number of subsegments of sum 
+}
+
 int main() {
 	ios_base::sync_with_stdio(false); cin.tie(0); cout.tie(0);
 	int t; cin >> t;
 	while (t--) {
-	
+        int n, x; cin >> n >> x;
+        vi a(n); rep(i, 0, n) cin >> a[i];
+        cout << solve(n, x, a) << "\n";
 	}
 	return 0;
 }

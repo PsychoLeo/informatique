@@ -1,3 +1,8 @@
+/*
+* Author:  Léopold Bernard
+* Created: 29/07/2024 14:28:52
+*/
+
 #include <cstdio>
 #include <iostream>
 #include <algorithm>
@@ -60,11 +65,45 @@ typedef vector<vector<long long>> vvl;
 #define MOD 1000000007
 #define INF 
 
+ll solve(vector<string> &a) {
+    vvi count(6, vi(50, 0));
+    for (string s: a) {
+        int somme = 0;
+        for (char c: s) {
+            somme += (c-'0');
+        }
+        count[sz(s)][somme]++;
+    }
+    ll c = 0;
+    vvi corresp = {{}, {1}, {2}, {1, 3}, {2, 4}, {1, 3, 5}};
+    for (string s: a) {
+        int m = sz(s);
+        int somme_mot = 0;
+        for (char ch: s) somme_mot += (ch-'0');
+        int d = 0;
+        for (int len: corresp[m]) {
+            // on cherche le nombre de prefixes ou suffixes de taille len
+            int somme = 0;
+            int mid = (m+len)/2;
+            for (int i=0; i<mid; ++i) somme += (s[i]-'0');
+            if (somme > somme_mot-somme) d += count[len][2*somme-somme_mot];
+            if (m != len) {
+                somme = 0;
+                for (int i=0; i<mid; ++i) somme += (s[m-1-i]-'0');
+                if (somme > somme_mot - somme) d += count[len][2*somme-somme_mot];
+            }
+        }
+        //debug(s);
+        // debug(d);
+        c += d;
+    }
+    return c;
+}
+
 int main() {
 	ios_base::sync_with_stdio(false); cin.tie(0); cout.tie(0);
-	int t; cin >> t;
-	while (t--) {
-	
-	}
+	int n; cin >> n;
+    vector<string> a(n); rep(i, 0, n) cin >> a[i];
+    cout << solve(a) << nl;
 	return 0;
 }

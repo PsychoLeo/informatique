@@ -1,3 +1,8 @@
+/*
+* Author:  Léopold Bernard
+* Created: 29/07/2024 14:08:10
+*/
+
 #include <cstdio>
 #include <iostream>
 #include <algorithm>
@@ -26,7 +31,6 @@ using namespace std;
 #define all(c) (c).begin(), (c).end()
 #define sz(x) (int)(x).size()
 #define rep(i, a, b) for(int i=a; i<(b); ++i)
-#define nl "\n"
 
 template<class T> inline bool chmax(T& a, T b) { if (a < b) { a = b; return 1; } return 0; }
 template<class T> inline bool chmin(T& a, T b) { if (a > b) { a = b; return 1; } return 0; }
@@ -58,13 +62,45 @@ typedef vector<vector<long long>> vvl;
 #endif
 
 #define MOD 1000000007
-#define INF 
+#define INF 100000000
+
+int solve (int n, vi &a) {
+    int r = 0;
+    vi b = {a[0]};
+    vi c = {INF};
+    rep(i, 1, n) {
+        int x = a[i];
+        if (x <= b.back() && x <= c.back()) {
+            // on le place dans celui où c'est le plus petit
+            int deltab = b.back()-x;
+            int deltac = c.back()-x;
+            if (deltab <= deltac) b.pb(x);
+            else c.pb(x);
+        }
+        else if (x > b.back() && x <= c.back()) {
+            c.pb(x);
+        }
+        else if (x <= b.back() && x > c.back()) {
+            b.pb(x);
+        }
+        else if (x > b.back() && x > c.back()) {
+            ++r;
+            int deltab = x-b.back();
+            int deltac = x-c.back();
+            if (deltab <= deltac) c.pb(x);
+            else b.pb(x);
+        }
+    }
+    return r;
+}
 
 int main() {
 	ios_base::sync_with_stdio(false); cin.tie(0); cout.tie(0);
 	int t; cin >> t;
 	while (t--) {
-	
+        int n; cin >> n; vi a(n);
+        rep(i,  0, n) cin >> a[i];
+        cout << solve(n, a) << "\n";
 	}
 	return 0;
 }

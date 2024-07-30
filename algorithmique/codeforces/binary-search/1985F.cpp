@@ -1,3 +1,8 @@
+/*
+* Author:  Léopold Bernard
+* Created: 30/07/2024 10:51:36
+*/
+
 #include <cstdio>
 #include <iostream>
 #include <algorithm>
@@ -60,11 +65,35 @@ typedef vector<vector<long long>> vvl;
 #define MOD 1000000007
 #define INF 
 
+ll solve(int h, int n, vi &a, vi &c) {
+    // binary search on the result
+    if (sum(a) >= h) return 1;
+    ll lo = 1, hi = 4LL * 1e12;
+    while (lo != hi) {
+        ll mid = (lo + hi)/2;
+        ll dmg = 0;
+        for (int i=0; i<n; ++i) {
+            dmg += 1LL * a[i] * (1 + (mid / c[i]));
+        }
+        if (dmg >= h) {
+            hi = mid;
+        }
+        else {
+            lo = mid+1;
+        }
+    }
+    return lo+1;
+}
+
 int main() {
 	ios_base::sync_with_stdio(false); cin.tie(0); cout.tie(0);
 	int t; cin >> t;
 	while (t--) {
-	
+        int h, n; cin >> h >>n;
+        vi a(n), c(n);
+        rep(i, 0, n) cin >> a[i];
+        rep(i, 0, n) cin >> c[i];
+        cout << solve(h, n, a, c) << nl;
 	}
 	return 0;
 }

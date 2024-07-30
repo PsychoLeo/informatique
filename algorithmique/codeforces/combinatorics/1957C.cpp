@@ -1,3 +1,8 @@
+/*
+* Author:  Léopold Bernard
+* Created: 28/07/2024 00:11:22
+*/
+
 #include <cstdio>
 #include <iostream>
 #include <algorithm>
@@ -26,7 +31,6 @@ using namespace std;
 #define all(c) (c).begin(), (c).end()
 #define sz(x) (int)(x).size()
 #define rep(i, a, b) for(int i=a; i<(b); ++i)
-#define nl "\n"
 
 template<class T> inline bool chmax(T& a, T b) { if (a < b) { a = b; return 1; } return 0; }
 template<class T> inline bool chmin(T& a, T b) { if (a > b) { a = b; return 1; } return 0; }
@@ -58,13 +62,35 @@ typedef vector<vector<long long>> vvl;
 #endif
 
 #define MOD 1000000007
-#define INF 
+
+ll solve(int n) {
+    ll S = 0;
+    ll kparmin = 1;
+    ll p = 1; // = l!/(l/2)!
+    for (int k=0; k<=n; ++k) {
+        if (k % 2 == 0) {
+            S = (S + kparmin * p) % MOD;
+            p = (p*(k+1)) % MOD;
+        }
+        else {
+            p = (p * (k+1) / ((k+1)/2)) % MOD;
+        }
+        kparmin = ((kparmin * (n-k)) / (k+1)) % MOD;
+    }
+    return S;
+}
 
 int main() {
 	ios_base::sync_with_stdio(false); cin.tie(0); cout.tie(0);
 	int t; cin >> t;
 	while (t--) {
-	
+        int n, k; cin >> n >> k;
+        rep(i, 0, k) {
+            int x, y; cin >> x >> y;
+            if (x ==y) --n;
+            else (n -= 2);
+        }
+        cout << solve(n) << endl;
 	}
 	return 0;
 }

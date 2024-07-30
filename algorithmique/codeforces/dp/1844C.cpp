@@ -1,3 +1,8 @@
+/*
+* Author:  Léopold Bernard
+* Created: 23/07/2024 16:26:34
+*/
+
 #include <cstdio>
 #include <iostream>
 #include <algorithm>
@@ -26,7 +31,6 @@ using namespace std;
 #define all(c) (c).begin(), (c).end()
 #define sz(x) (int)(x).size()
 #define rep(i, a, b) for(int i=a; i<(b); ++i)
-#define nl "\n"
 
 template<class T> inline bool chmax(T& a, T b) { if (a < b) { a = b; return 1; } return 0; }
 template<class T> inline bool chmin(T& a, T b) { if (a > b) { a = b; return 1; } return 0; }
@@ -52,7 +56,7 @@ typedef vector<vector<long long>> vvl;
 
 #define DEBUG true
 #ifdef DEBUG
-#define debug(x) cout << #x << "=" << x << "\n"
+#define debug(x) cout << #x << "=" << x << "\n";
 #else
 #define debug(x)
 #endif
@@ -60,11 +64,28 @@ typedef vector<vector<long long>> vvl;
 #define MOD 1000000007
 #define INF 
 
+ll solve(int n, vi &c) {
+    bool has_positive = false;
+    for (int x: c) if (x >= 0) has_positive = true;
+    if (!has_positive) return max(c);
+    ll sum_pair = 0;
+    for (int i=0; i<n; i+=2) {
+        sum_pair += max(0, c[i]);
+    }
+    ll sum_impair = 0;
+    for (int i=1; i<n; i += 2) {
+        sum_impair += max(0, c[i]);
+    }
+    return max(sum_pair, sum_impair);
+}
+
 int main() {
 	ios_base::sync_with_stdio(false); cin.tie(0); cout.tie(0);
 	int t; cin >> t;
 	while (t--) {
-	
+        int n; cin >> n;
+        vi c(n); rep(i, 0, n) cin >> c[i];
+        cout << solve(n, c) << "\n";
 	}
 	return 0;
 }

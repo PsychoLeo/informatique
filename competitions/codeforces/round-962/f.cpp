@@ -1,3 +1,8 @@
+/*
+* Author:  Léopold Bernard
+* Created: 27/07/2024 14:36:01
+*/
+
 #include <cstdio>
 #include <iostream>
 #include <algorithm>
@@ -26,7 +31,6 @@ using namespace std;
 #define all(c) (c).begin(), (c).end()
 #define sz(x) (int)(x).size()
 #define rep(i, a, b) for(int i=a; i<(b); ++i)
-#define nl "\n"
 
 template<class T> inline bool chmax(T& a, T b) { if (a < b) { a = b; return 1; } return 0; }
 template<class T> inline bool chmin(T& a, T b) { if (a > b) { a = b; return 1; } return 0; }
@@ -60,11 +64,30 @@ typedef vector<vector<long long>> vvl;
 #define MOD 1000000007
 #define INF 
 
+ll solve(int n, int k, vi &a, vi &b) {
+    // K log N algorithm
+    ll c = 0;
+    priority_queue<pii> maxHeap;
+    rep(i, 0, n) maxHeap.push(mp(a[i], i));
+    rep(i, 0, k) {
+        pii p = maxHeap.top();
+        maxHeap.pop();
+        c += p.fi;
+        int nai = max(0, p.fi-b[p.se]);
+        maxHeap.push(mp(nai, p.se));
+    }
+    return c;
+}
+
 int main() {
 	ios_base::sync_with_stdio(false); cin.tie(0); cout.tie(0);
 	int t; cin >> t;
 	while (t--) {
-	
+        int n, k; cin >> n >> k;
+        vi a(n); vi b(n);
+        rep(i, 0, n) cin >> a[i];
+        rep(i, 0, n) cin >> b[i];
+        cout << solve(n, k,  a, b) << "\n";
 	}
 	return 0;
 }

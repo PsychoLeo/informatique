@@ -1,3 +1,8 @@
+/*
+* Author:  Léopold Bernard
+* Created: 26/07/2024 16:21:08
+*/
+
 #include <cstdio>
 #include <iostream>
 #include <algorithm>
@@ -26,7 +31,6 @@ using namespace std;
 #define all(c) (c).begin(), (c).end()
 #define sz(x) (int)(x).size()
 #define rep(i, a, b) for(int i=a; i<(b); ++i)
-#define nl "\n"
 
 template<class T> inline bool chmax(T& a, T b) { if (a < b) { a = b; return 1; } return 0; }
 template<class T> inline bool chmin(T& a, T b) { if (a > b) { a = b; return 1; } return 0; }
@@ -52,7 +56,7 @@ typedef vector<vector<long long>> vvl;
 
 #define DEBUG true
 #ifdef DEBUG
-#define debug(x) cout << #x << "=" << x << "\n"
+#define debug(x) cout << #x << "=" << x << "\n";
 #else
 #define debug(x)
 #endif
@@ -60,11 +64,33 @@ typedef vector<vector<long long>> vvl;
 #define MOD 1000000007
 #define INF 
 
+vector<string> solve(int n, int k, vector<string> &g) {
+	// cout << "hello"<< endl;
+	int d = n/k;
+	vector<string> r(d, "");
+	rep(i, 0, d) {
+		rep(j, 0, d) r[i].push_back(g[i*k][j*k]);
+	}
+	return r;
+}
+
 int main() {
 	ios_base::sync_with_stdio(false); cin.tie(0); cout.tie(0);
 	int t; cin >> t;
+	// debug(t);
 	while (t--) {
-	
+		int n, k; cin >> n >> k;
+		// debug(n); debug(k);
+		vector<string> grid(n);
+		rep(i, 0, n) {
+			cin >> grid[i];
+		}
+		vector<string> r = solve(n,k, grid);
+		int d = n/k;
+		rep(i, 0, d) {
+			rep(j, 0, d) cout << r[i][j];
+			cout << "\n";
+		}
 	}
 	return 0;
 }

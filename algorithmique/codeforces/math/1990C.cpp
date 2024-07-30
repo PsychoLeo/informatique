@@ -1,3 +1,8 @@
+/*
+* Author:  Léopold Bernard
+* Created: 29/07/2024 17:49:49
+*/
+
 #include <cstdio>
 #include <iostream>
 #include <algorithm>
@@ -60,11 +65,38 @@ typedef vector<vector<long long>> vvl;
 #define MOD 1000000007
 #define INF 
 
+ll solve(int n, vi &a) {
+    ll c = 0;
+    unordered_set<int> v;
+    int curr_mad = 0;
+    rep(i, 0, n) {
+        c += a[i];
+        if (v.find(a[i]) == v.end()) v.emplace(a[i]);
+        else (curr_mad = max(curr_mad, a[i]));
+        a[i] = curr_mad;
+    }
+    for (int i=0; i<n;) {
+        int num = a[i]; ll d = a[i];
+        int j = i;
+        for (; j<n && a[j] == a[i]; ++j) {
+            d = 1LL * num * (j-i+1);
+            c += d;
+        }
+        if (j-i > 1) c += d * (n-j);
+        i = j;
+    }
+    // rep(i, 0, n) cout << a[i] << " ";
+    // cout << nl;
+    return c;
+}
+
 int main() {
 	ios_base::sync_with_stdio(false); cin.tie(0); cout.tie(0);
 	int t; cin >> t;
 	while (t--) {
-	
+        int n; cin >> n;
+        vi a(n); rep(i, 0, n) cin >> a[i];
+        cout << solve(n, a) << nl;
 	}
 	return 0;
 }

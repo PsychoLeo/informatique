@@ -1,3 +1,8 @@
+/*
+* Author:  Léopold Bernard
+* Created: 30/07/2024 10:20:15
+*/
+
 #include <cstdio>
 #include <iostream>
 #include <algorithm>
@@ -26,6 +31,7 @@ using namespace std;
 #define all(c) (c).begin(), (c).end()
 #define sz(x) (int)(x).size()
 #define rep(i, a, b) for(int i=a; i<(b); ++i)
+#define nl "\n"
 
 template<class T> inline bool chmax(T& a, T b) { if (a < b) { a = b; return 1; } return 0; }
 template<class T> inline bool chmin(T& a, T b) { if (a > b) { a = b; return 1; } return 0; }
@@ -56,44 +62,48 @@ typedef vector<vector<long long>> vvl;
 #define debug(x)
 #endif
 
-#define MOD 998244353
-#define INF 
+#define MOD 1000000007
+#define INF (ll)1e9
 
-pair<int, long> solve(string &s) {
-    ll p = 1;
-    int c = 0;
-    int n = (int)s.size();
-    vi fact(n+1, 1);
-    ll f = 1;
-    rep (i, 1, n+1) {
-        f = (f * i) % MOD;
-        fact[i] = f;
-        // debug(fact[i]);
-    }
-    int numChanges = 0;
-    for (int i=0; i<n;) {
-        char curr = s[i];
-        int j = i+1;
-        int len = 1;
-        if (j < n && s[j] == curr) numChanges++;
-        while (j < n && s[j] == curr) {
-            ++len; ++j; ++c;
+vll solve(int n, vi &k) {
+    // binary search on S = SUM(xi)
+    ll lo = n, hi = 1LL*n*1e9;
+    while (hi - lo > 1) {
+        ll mid = (lo + hi)/2;
+        vll x(n);
+        for (int i=0; i<n-1; ++i) {
+            if ((1+mid) % k[i] == 0) x[i] = (1+mid)/k[i];
+            else x[i] = 1+(1+mid)/k[i];
+            if (x[i] > INF) {
+                hi = mid-1;
+                break;
+            }
         }
-        // debug(len);
-        p = (p*fact[len]) % MOD;
-        i = j;
+        if (hi != mid-1) {
+            ll xn = mid;
+            for (int i=0; i<n-1; ++i) xn -= x[i];
+            x[n-1] = xn;
+            if (xn > INF) {
+                hi = mid-1;
+            }
+            else if (xn*k[n-1] >= 1 + mid) return x;
+            else {
+                lo = mid+1;
+            }
+        }
     }
-    p = (p * fact[numChanges]) % MOD;
-    return mp(c, p);
+    return {-1};
 }
 
 int main() {
 	ios_base::sync_with_stdio(false); cin.tie(0); cout.tie(0);
 	int t; cin >> t;
 	while (t--) {
-        string s; cin >> s;
-        pair<int, long> res = solve(s);
-        cout << res.fi << " " << res.se << "\n";
+        int n; cin >> n; 
+        vi k(n); rep(i, 0, n) cin >> k[i];
+        vll r = solve(n, k);
+        for (int x : r) cout << x << " ";
+        cout << nl;
 	}
 	return 0;
 }

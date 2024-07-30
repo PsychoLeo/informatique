@@ -9,7 +9,7 @@
 
 ## Introduction
 
-Hello, my name is Léopold and I am currently (2024) a student at Telecom Paris. I was born on the 3rd december 2003. I went through a "prepa" in Stanislas (MPSI, MP*) and studied mathematics, physics and computer science.
+Hello, my name is Léopold and I am currently (2024) a student at Telecom Paris. I am currently 20 years old. I went through a "prepa" in Stanislas (MPSI, MP*) and studied mathematics, physics and computer science.
 
 I've been programming for about 5 years, mostly in **Python and C++**. At the beginning, I enjoyed Python and coding little projects, which has since then changed a lot because I prefer competitive programming and solving algorithmical problems using C++. I am currently on MACOS but I used Linux for about 4 years.
 

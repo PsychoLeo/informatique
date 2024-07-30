@@ -26,7 +26,6 @@ using namespace std;
 #define all(c) (c).begin(), (c).end()
 #define sz(x) (int)(x).size()
 #define rep(i, a, b) for(int i=a; i<(b); ++i)
-#define nl "\n"
 
 template<class T> inline bool chmax(T& a, T b) { if (a < b) { a = b; return 1; } return 0; }
 template<class T> inline bool chmin(T& a, T b) { if (a > b) { a = b; return 1; } return 0; }
@@ -57,14 +56,41 @@ typedef vector<vector<long long>> vvl;
 #define debug(x)
 #endif
 
-#define MOD 1000000007
+#define MOD 998244353
 #define INF 
+
+pair<int, long> solve(string &s) {
+    ll p = 1;
+    ll c = 0;
+    int n = sz(s);
+    vll fact(n+1, 1);
+    rep (i, 1, n+1) {
+        fact[i] = (fact[i-1] * i) % MOD;
+        // debug(fact[i]);
+    }
+    for (int i=0; i<n;) {
+        char curr = s[i];
+        int j = i+1;
+        for (; j<n && s[j] == curr; ++j);
+        while (j < n && s[j] == curr) {
+            ++j;
+        }
+        // debug(len);
+        p = (p*(j-i)) % MOD;
+        c += (j-i-1);
+        i = j;
+    }
+    p = (p * fact[c]) % MOD;
+    return mp(c, p);
+}
 
 int main() {
 	ios_base::sync_with_stdio(false); cin.tie(0); cout.tie(0);
 	int t; cin >> t;
 	while (t--) {
-	
+        string s; cin >> s;
+        pair<int, long> res = solve(s);
+        cout << res.fi << " " << res.se << "\n";
 	}
 	return 0;
 }

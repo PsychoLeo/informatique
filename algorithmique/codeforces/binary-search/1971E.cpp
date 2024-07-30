@@ -1,3 +1,8 @@
+/*
+* Author:  Léopold Bernard
+* Created: 30/07/2024 11:43:00
+*/
+
 #include <cstdio>
 #include <iostream>
 #include <algorithm>
@@ -50,7 +55,7 @@ typedef vector<vector<bool>> vvb;
 typedef vector<long long> vll;
 typedef vector<vector<long long>> vvl;
 
-#define DEBUG true
+// #define DEBUG true
 #ifdef DEBUG
 #define debug(x) cout << #x << "=" << x << "\n"
 #else
@@ -60,11 +65,32 @@ typedef vector<vector<long long>> vvl;
 #define MOD 1000000007
 #define INF 
 
+ll solve(vi &a, vi &b, int d) {
+    auto it = upper_bound(a.begin(), a.end(), d);
+    int i = it - a.begin() - 1;
+    // cout << "d : " << d <<nl;
+    // cout << "a_i : " << a[i] << nl;
+    // cout << "b_i : " << b[i] << nl;
+    // debug(i);
+    if (d == a[i]) return b[i];
+    ld t = (ld)b[i] + (ld)(b[i+1]-b[i]) * (d-a[i]) / (a[i+1]-a[i]);
+    return (ll)t;
+}
+
 int main() {
 	ios_base::sync_with_stdio(false); cin.tie(0); cout.tie(0);
 	int t; cin >> t;
 	while (t--) {
-	
+        int n, k, q; cin >> n >> k >> q;
+        int d;
+        vi a(k+1, 0), b(k+1, 0);
+        rep(i, 0, k) cin >> a[i+1];
+        rep(i, 0, k) cin >> b[i+1];
+        rep(i, 0, q) {
+            cin >> d;
+            cout << solve(a, b, d) << " ";
+        }
+        cout << nl;
 	}
 	return 0;
 }

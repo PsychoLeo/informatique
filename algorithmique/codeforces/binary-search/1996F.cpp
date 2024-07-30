@@ -1,3 +1,8 @@
+/*
+* Author:  Léopold Bernard
+* Created: 30/07/2024 12:31:32
+*/
+
 #include <cstdio>
 #include <iostream>
 #include <algorithm>
@@ -58,13 +63,29 @@ typedef vector<vector<long long>> vvl;
 #endif
 
 #define MOD 1000000007
-#define INF 
+#define INF (ll)1e9
+
+ll solve(int n, int k, vi &a, vi &b) {
+    ll lo = 0, hi = INF;
+    while (hi > lo) {
+        ll mid = (hi+lo)/2;
+        ll nb_op = 0;
+        for (int i=0; i<n; ++i) if (a[i]-mid > 0) nb_op += (a[i]- mid)/b[i];
+        if (nb_op > k) hi = mid-1;
+        else lo = mid;
+    }
+    return lo;
+}
 
 int main() {
 	ios_base::sync_with_stdio(false); cin.tie(0); cout.tie(0);
 	int t; cin >> t;
 	while (t--) {
-	
+        int n, k; 
+        vi a(n), b(n);
+        rep(i, 0, n) cin >> a[i];
+        rep(i, 0, n) cin >> b[i];
+        cout << solve(n, k, a, b) << nl;
 	}
 	return 0;
 }

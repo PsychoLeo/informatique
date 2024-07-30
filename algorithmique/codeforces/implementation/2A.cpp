@@ -1,3 +1,8 @@
+/*
+* Author:  Léopold Bernard
+* Created: 25/07/2024 14:53:35
+*/
+
 #include <cstdio>
 #include <iostream>
 #include <algorithm>
@@ -51,7 +56,7 @@ typedef vector<vector<long long>> vvl;
 
 #define DEBUG true
 #ifdef DEBUG
-#define debug(x) cout << #x << "=" << x << "\n"
+#define debug(x) cout << #x << "=" << x << "\n";
 #else
 #define debug(x)
 #endif
@@ -62,9 +67,24 @@ typedef vector<vector<long long>> vvl;
 int main() {
 	ios_base::sync_with_stdio(false); cin.tie(0); cout.tie(0);
 	int n; cin >> n;
-    int p = (n+1)/2;
-    int q = (2*p+1)*(2*p+1);
-    int r = (n%2) ? q/2 : q/2+(n % 4 == 0);
-    cout << r << endl;
+    unordered_map<string, int> score;
+    map<int, string> first_at;
+    int maxScore = -1;
+    for (int i=0; i<n; ++i) {
+        string player; int sc;
+        cin >> player >> sc;
+        if (score.find(player) == score.end()) {
+            score[player] = sc;
+        }
+        else {
+            score[player] += sc;
+        }
+        if (score[player] > maxScore) {
+            maxScore = score[player];
+            first_at[maxScore] = player;
+        }
+    }
+    map<int, string>::iterator it = first_at.lower_bound(maxScore);
+    cout << it->second << endl;
 	return 0;
 }

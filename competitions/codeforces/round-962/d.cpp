@@ -1,3 +1,8 @@
+/*
+* Author:  Léopold Bernard
+* Created: 26/07/2024 16:21:14
+*/
+
 #include <cstdio>
 #include <iostream>
 #include <algorithm>
@@ -26,7 +31,6 @@ using namespace std;
 #define all(c) (c).begin(), (c).end()
 #define sz(x) (int)(x).size()
 #define rep(i, a, b) for(int i=a; i<(b); ++i)
-#define nl "\n"
 
 template<class T> inline bool chmax(T& a, T b) { if (a < b) { a = b; return 1; } return 0; }
 template<class T> inline bool chmin(T& a, T b) { if (a > b) { a = b; return 1; } return 0; }
@@ -52,7 +56,7 @@ typedef vector<vector<long long>> vvl;
 
 #define DEBUG true
 #ifdef DEBUG
-#define debug(x) cout << #x << "=" << x << "\n"
+#define debug(x) cout << #x << "=" << x << "\n";
 #else
 #define debug(x)
 #endif
@@ -60,11 +64,25 @@ typedef vector<vector<long long>> vvl;
 #define MOD 1000000007
 #define INF 
 
+ll solve(int n, int x) {
+	// n log x algorithm
+	ll c = 0;
+	rep(a, 1, x) {
+		rep(b, 1, 1+n/a) {
+			if (a*b >= n || a+b>=x) break;
+			int d = a+b;
+			c += min(x-d, (n-a*b)/d);
+		}
+	}
+	return c;
+}
+
 int main() {
 	ios_base::sync_with_stdio(false); cin.tie(0); cout.tie(0);
 	int t; cin >> t;
 	while (t--) {
-	
+		int n, x; cin >> n >> x;
+		cout << solve(n, x) << "\n";
 	}
 	return 0;
 }

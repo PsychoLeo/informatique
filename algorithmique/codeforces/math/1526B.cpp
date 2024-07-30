@@ -1,3 +1,8 @@
+/*
+* Author:  Léopold Bernard
+* Created: 29/07/2024 16:56:43
+*/
+
 #include <cstdio>
 #include <iostream>
 #include <algorithm>
@@ -60,11 +65,26 @@ typedef vector<vector<long long>> vvl;
 #define MOD 1000000007
 #define INF 
 
+string solve(int x) {
+    int k = x/11, m = x%11;
+    if (k >= 10*m) return "YES";
+    const int N = 1111;
+    bool is_repr[N] = {false};
+    for (int i=0; i<N/111; ++i) {
+        for (int j=0; j<N/11; ++j) {
+            if (111*i + 11*j < N) is_repr[111*i + 11*j] = true;
+        }
+    }
+    return (is_repr[x] ? "YES" : "NO");
+}
+
 int main() {
 	ios_base::sync_with_stdio(false); cin.tie(0); cout.tie(0);
 	int t; cin >> t;
 	while (t--) {
-	
+        int x; cin >> x;
+        cout << solve(x) << endl;
+
 	}
 	return 0;
 }
