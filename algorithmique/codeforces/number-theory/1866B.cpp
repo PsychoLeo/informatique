@@ -1,6 +1,6 @@
 /*
 * Author:  Léopold Bernard
-* Created: 30/07/2024 15:39:54
+* Created: 31/07/2024 15:09:26
 */
 
 #include <cstdio>
@@ -62,14 +62,52 @@ typedef vector<vector<long long>> vvl;
 #define debug(x)
 #endif
 
-#define MOD 1000000007
-#define INF 
+#define MOD 998244353
+
+ll solve (vector<pii> &p) {
+    ll c = 1;
+    for (pii x : p) {
+        if (x.fi > x.se) c = (c * 2) % MOD;
+        else if (x.fi < x.se) return 0;
+    }
+    return c;
+}
 
 int main() {
 	ios_base::sync_with_stdio(false); cin.tie(0); cout.tie(0);
-	int t; cin >> t;
-	while (t--) {
-        int n; cin >> n;
-	}
+	int n; cin >> n;
+    vi pa(n); rep(i, 0, n) cin >> pa[i];
+    vi ea(n); rep(i, 0, n) cin >> ea[i];
+    int m; cin >> m;
+    vi pb(m); rep(i, 0, m) cin >> pb[i];
+    vi eb(m); rep(i, 0, m) cin >> eb[i];
+    vector<pii> p;
+    int i=0, j=0;
+    while (i < n || j < m) {
+        if (i == n) {
+            p.pb(mp(0, eb[j]));
+            ++j;
+        }
+        else if (j == m) {
+            p.pb(mp(ea[i], 0));
+            ++i;
+        }
+        else {
+            if (pa[i] == pb[j]) {
+                p.pb(mp(ea[i], eb[j])); 
+                ++i; ++j;
+            }
+            else if (pa[i] < pb[j]) {
+                p.pb(mp(ea[i], 0)); 
+                ++i;
+            }
+            else {
+                p.pb(mp(0, eb[j]));
+                ++j;
+            }
+        }
+    }
+    // for (pii x : p) cout << x.fi << " " << x.se << nl;
+    cout << solve(p) << nl;
 	return 0;
 }

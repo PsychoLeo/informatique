@@ -1,6 +1,6 @@
 /*
 * Author:  Léopold Bernard
-* Created: 30/07/2024 15:39:54
+* Created: 31/07/2024 14:45:15
 */
 
 #include <cstdio>
@@ -69,7 +69,19 @@ int main() {
 	ios_base::sync_with_stdio(false); cin.tie(0); cout.tie(0);
 	int t; cin >> t;
 	while (t--) {
-        int n; cin >> n;
+        int n, x, y; cin >> n >> x >> y;
+        map<pii, int> m;
+        ll c = 0;
+        for (int i=0; i<n; ++i) {
+            int a; cin >> a;
+            int mx = ((x-a) % x + x) % x;
+            pii p_search = mp(mx, a%y);
+            pii p = mp(a%x, a%y);
+            if (m.find(p_search) != m.end()) c += m[p_search];
+            if (m.find(p) != m.end()) m[p]++;
+            else m[p] = 1;
+        }
+        cout << c << nl;
 	}
 	return 0;
 }

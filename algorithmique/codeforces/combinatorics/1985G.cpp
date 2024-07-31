@@ -1,6 +1,6 @@
 /*
 * Author:  Léopold Bernard
-* Created: 30/07/2024 15:39:54
+* Created: 31/07/2024 20:40:51
 */
 
 #include <cstdio>
@@ -63,13 +63,31 @@ typedef vector<vector<long long>> vvl;
 #endif
 
 #define MOD 1000000007
-#define INF 
+
+ll binPow(ll a, ll n) {
+    ll r = 1;
+    while (n) {
+        if (n % 2) r = (r * a) % MOD;
+        a = (a * a) % MOD;
+        n = n/2;
+    }
+    return r;
+}
+
+
+ll solve (int k, int l, int r) {
+    if (k >= 10) return 0;
+    int m = 9/k+1;
+    ll c = binPow(m, r) - binPow(m, l);
+    return (c % MOD + MOD) % MOD;
+}
 
 int main() {
 	ios_base::sync_with_stdio(false); cin.tie(0); cout.tie(0);
 	int t; cin >> t;
 	while (t--) {
-        int n; cin >> n;
+        int k, l, r; cin >> l >> r >> k;
+        cout << solve(k, l, r) << nl;
 	}
 	return 0;
 }

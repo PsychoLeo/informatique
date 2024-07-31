@@ -1,6 +1,6 @@
 /*
 * Author:  Léopold Bernard
-* Created: 30/07/2024 15:39:54
+* Created: 31/07/2024 15:40:17
 */
 
 #include <cstdio>
@@ -62,14 +62,28 @@ typedef vector<vector<long long>> vvl;
 #define debug(x)
 #endif
 
-#define MOD 1000000007
+#define MOD 998244353
 #define INF 
 
 int main() {
 	ios_base::sync_with_stdio(false); cin.tie(0); cout.tie(0);
-	int t; cin >> t;
-	while (t--) {
-        int n; cin >> n;
-	}
+	int n; cin >> n;
+    vi a(n); rep(i, 0, n) cin >> a[i];
+    vi c(n, 0);
+    for (int i=1; i<=n; ++i) {
+        int mx = 0;
+        for (int j=i; j<=n; j += i) {
+            chmax(mx, a[j-1]);
+        }
+        c[i-1] = mx;
+    }
+    sort(all(c));
+    ll res = 0;
+    ll pow2 = 1;
+    for (int i=0; i<n; ++i) {
+        res = (res + c[i] * pow2) % MOD;
+        pow2 = (pow2 * 2) % MOD;
+    }
+    cout << res << nl;
 	return 0;
 }

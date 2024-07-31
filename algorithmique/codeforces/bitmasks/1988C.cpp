@@ -1,6 +1,6 @@
 /*
 * Author:  Léopold Bernard
-* Created: 30/07/2024 15:39:54
+* Created: 31/07/2024 23:10:20
 */
 
 #include <cstdio>
@@ -65,11 +65,34 @@ typedef vector<vector<long long>> vvl;
 #define MOD 1000000007
 #define INF 
 
+vll solve(ll n) {
+    int m = __builtin_popcountll(n);
+    // cout << m << endl;
+    // cout << bitset<64>(n) << endl;
+    if (m > 1) ++m;
+    vll v = {n};
+    ll b = 1;
+    for (int i=0; i<m-1; ++i) {
+        while ((n & b) != b) {
+            b *= 2;
+        }
+        v.pb(n ^ b);
+        b *= 2;
+        // cout << (v[i+1] | v[i]) << endl;
+    }
+    reverse(all(v));
+    return v;
+}
+
 int main() {
 	ios_base::sync_with_stdio(false); cin.tie(0); cout.tie(0);
 	int t; cin >> t;
 	while (t--) {
-        int n; cin >> n;
+        ll n; cin >> n;
+        vll v = solve(n);
+        cout << sz(v) << nl;
+        for (ll x: v) cout << x << " ";
+        cout << nl;
 	}
 	return 0;
 }

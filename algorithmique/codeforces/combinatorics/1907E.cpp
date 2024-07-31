@@ -1,6 +1,6 @@
 /*
 * Author:  Léopold Bernard
-* Created: 30/07/2024 15:39:54
+* Created: 31/07/2024 22:51:56
 */
 
 #include <cstdio>
@@ -65,11 +65,31 @@ typedef vector<vector<long long>> vvl;
 #define MOD 1000000007
 #define INF 
 
+ll num_ways(int n, int num_used) {
+    if (num_used == 2) return 1;
+    ll c = 0;
+    for (int a=0; a<=n; ++a) {
+        c += num_ways(n-a, num_used+1);
+    }
+    return c;
+}
+
+ll solve (string s) {
+    vll v(10, 1);
+    ll r = 1;
+    for (int i=1; i<10; ++i) v[i] = num_ways(i, 0);
+    for (char c : s) {
+        r *= v[c-'0'];
+    }
+    return r;
+}
+
 int main() {
 	ios_base::sync_with_stdio(false); cin.tie(0); cout.tie(0);
 	int t; cin >> t;
 	while (t--) {
-        int n; cin >> n;
+        string s; cin >> s;
+        cout << solve(s) << nl;
 	}
 	return 0;
 }
