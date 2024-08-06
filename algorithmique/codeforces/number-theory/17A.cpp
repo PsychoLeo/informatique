@@ -1,6 +1,6 @@
 /*
 * Author:  Léopold Bernard
-* Created: 22/07/2024 13:59:09
+* Created: 04/08/2024 20:42:32
 */
 
 #include <cstdio>
@@ -31,6 +31,14 @@ using namespace std;
 #define all(c) (c).begin(), (c).end()
 #define sz(x) (int)(x).size()
 #define rep(i, a, b) for(int i=a; i<(b); ++i)
+#define nl "\n"
+
+template<class T> inline bool chmax(T& a, T b) { if (a < b) { a = b; return 1; } return 0; }
+template<class T> inline bool chmin(T& a, T b) { if (a > b) { a = b; return 1; } return 0; }
+
+template<class T> long long sum(const T& a){ return accumulate(a.begin(), a.end(), 0LL); }
+template<class T> auto min(const T& a){ return *min_element(a.begin(), a.end()); }
+template<class T> auto max(const T& a){ return *max_element(a.begin(), a.end()); }
 
 
 typedef vector<int> vi;
@@ -49,7 +57,7 @@ typedef vector<vector<long long>> vvl;
 
 #define DEBUG true
 #ifdef DEBUG
-#define debug(x) cout << #x << "=" << x << "\n";
+#define debug(x) cout << #x << "=" << x << "\n"
 #else
 #define debug(x)
 #endif
@@ -57,26 +65,32 @@ typedef vector<vector<long long>> vvl;
 #define MOD 1000000007
 #define INF 
 
-int solve(int c, vi &h) {
-    vi dp(c+1, 0);
-    dp[1] = h[1];
-    for (int i=2; i<=c;++i) {
-        int mxh = max(h[i], h[i-1]);
-        int mn = min(h[i] + dp[i-1], mxh + dp[i-2]);
-        if (i >= 3) mn = min(mn, max(mxh, h[i-2]) + dp[i-3]);
-        dp[i] = mn;
+bool solve(int n, int k) {
+    vb P(2 * n, true);
+    P[0] = false;
+    P[1] = false;
+    vi primes;
+    for (int i=2; i<2*n; ++i) {
+        if (P[i]) {
+            primes.pb(i);
+            for (int j = i*i; j<2*n; j += i) {
+                P[j] = false;
+            }
+        }
     }
-    return dp[c];
+    // for (int x: primes) cout << x << " ";
+    // cout << nl;
+    int c = 0;
+    for (int i=0; i<sz(primes)-1 && primes[i] <= n; ++i) {
+        int prm = primes[i] + primes[i+1] + 1;
+        c += P[prm] * (prm <= n);
+    }
+    return (c >= k);
 }
 
 int main() {
 	ios_base::sync_with_stdio(false); cin.tie(0); cout.tie(0);
-	int c, r, n; cin >> c >> r >> n;
-    vi h(c+1, 0);
-    rep(i, 0, n) {
-        int ci, hi; cin >> ci >> hi;
-        h[ci] = max(h[ci], hi);
-    }
-    cout << solve(c, h) << endl;
+	int n, k; cin >> n >> k;
+    cout << (solve(n, k) ? "YES" : "NO") << nl;
 	return 0;
 }

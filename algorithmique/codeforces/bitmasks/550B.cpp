@@ -1,6 +1,6 @@
 /*
 * Author:  Léopold Bernard
-* Created: 30/07/2024 12:31:32
+* Created: 01/08/2024 21:49:05
 */
 
 #include <cstdio>
@@ -63,53 +63,30 @@ typedef vector<vector<long long>> vvl;
 #endif
 
 #define MOD 1000000007
-#define INF (ll)1e9
+#define INF 1000000000
 
-ll solve(ll n, ll k, vll &a, vll &b) {
-    ll lo = 0, hi = INF;
-    while (hi > lo) {
-        ll mid = (hi+lo)/2;
-        // debug(mid);
-        ll nb_op = 0;
-        for (int i=0; i<n; ++i) nb_op += max(0LL, (a[i]-mid)/b[i]);
-        if (nb_op > k) lo = mid+1;
-        else hi = mid;
+int solve(int n, int l, int r, int x, vi &c) {
+    int m = 0;
+    for (int mask=0; mask < (1<<n); ++mask) {
+        if (__builtin_popcount(mask) >= 2) {
+            int mindiff = INF, maxdiff = -INF, sumdiff = 0;
+            for (int i=0; i<n; ++i) {
+                if (mask & (1<<i)) {
+                    chmin(mindiff, c[i]);
+                    chmax(maxdiff, c[i]);
+                    sumdiff += c[i];
+                }
+            }
+            if ((l <= sumdiff) && (sumdiff <= r) && (maxdiff-mindiff >= x)) ++m;
+        }
     }
-    debug(lo);
-    // lo will contain the maximum value that can be a minimum for all the values of  
-    ll nb_op = k;
-    ll score = 0;
-    for (int i=0; i<n; ++i) {
-        ll m = max(0LL, (a[i]-lo)/b[i]);
-        nb_op -= m;
-        ll add_sc = m * a[i] - b[i] * m * (m-1) / 2;
-        // debug(add_sc);
-        score += add_sc;
-        a[i] -= m * b[i];
-    }
-    priority_queue<pll> pq;
-    for (int i=0; i<n; ++i) {
-        pq.push(mp(a[i], i));
-    }
-    for (int j=0; j<nb_op; ++j) {
-        pll p = pq.top();
-        pq.pop();
-        score += p.fi;
-        // debug(p.fi);
-        pq.push(mp(max(0LL, p.fi-b[p.se]), p.se));
-    }
-    return score;
+    return m;
 }
 
 int main() {
 	ios_base::sync_with_stdio(false); cin.tie(0); cout.tie(0);
-	int t; cin >> t;
-	while (t--) {
-        ll n, k; cin >> n >> k;
-        vll a(n), b(n);
-        rep(i, 0, n) cin >> a[i];
-        rep(i, 0, n) cin >> b[i];
-        cout << solve(n, k, a, b) << nl;
-	}
+	int n, l, r, x; cin >> n >> l >> r >> x;
+    vi c(n); rep(i, 0, n) cin >> c[i];
+    cout << solve(n, l, r, x, c) << nl;
 	return 0;
 }

@@ -1,6 +1,6 @@
 /*
 * Author:  Léopold Bernard
-* Created: 30/07/2024 12:31:32
+* Created: 06/08/2024 20:15:54
 */
 
 #include <cstdio>
@@ -55,7 +55,6 @@ typedef vector<vector<bool>> vvb;
 typedef vector<long long> vll;
 typedef vector<vector<long long>> vvl;
 
-#define DEBUG true
 #ifdef DEBUG
 #define debug(x) cout << #x << "=" << x << "\n"
 #else
@@ -63,53 +62,66 @@ typedef vector<vector<long long>> vvl;
 #endif
 
 #define MOD 1000000007
-#define INF (ll)1e9
+#define MAX (ll)(2e5+5) 
 
-ll solve(ll n, ll k, vll &a, vll &b) {
-    ll lo = 0, hi = INF;
-    while (hi > lo) {
-        ll mid = (hi+lo)/2;
-        // debug(mid);
-        ll nb_op = 0;
-        for (int i=0; i<n; ++i) nb_op += max(0LL, (a[i]-mid)/b[i]);
-        if (nb_op > k) lo = mid+1;
-        else hi = mid;
+ll fact[MAX];
+ll ifact[MAX]; // inverse factorial
+
+ll binexp(ll a, ll n) {
+    ll ans = 1;
+    while (n) {
+        if (n % 2) ans = (ans * a) % MOD;
+        n /= 2;
+        a = (a * a) % MOD; 
     }
-    debug(lo);
-    // lo will contain the maximum value that can be a minimum for all the values of  
-    ll nb_op = k;
-    ll score = 0;
-    for (int i=0; i<n; ++i) {
-        ll m = max(0LL, (a[i]-lo)/b[i]);
-        nb_op -= m;
-        ll add_sc = m * a[i] - b[i] * m * (m-1) / 2;
-        // debug(add_sc);
-        score += add_sc;
-        a[i] -= m * b[i];
+    return ans;
+}
+
+void fill() {
+    fact[0] = 1;
+    for (int i=1; i<MAX; ++i) {
+        fact[i] = (i * fact[i-1]) % MOD;
     }
-    priority_queue<pll> pq;
-    for (int i=0; i<n; ++i) {
-        pq.push(mp(a[i], i));
+    ifact[0] = 1;
+    for (int i=1; i<MAX; ++i) {
+        ifact[i] = binexp(fact[i], MOD-2);
     }
-    for (int j=0; j<nb_op; ++j) {
-        pll p = pq.top();
-        pq.pop();
-        score += p.fi;
-        // debug(p.fi);
-        pq.push(mp(max(0LL, p.fi-b[p.se]), p.se));
+}
+
+ll parmi (int k, int n) {
+    if (k > n || k < 0) return 0;
+    if (k == 0 || k == n) return 1;
+    ll p = (fact[n] * ifact[k]) % MOD;
+    p = (p * ifact[n-k]) % MOD;
+    return p;
+}
+
+ll solve (int n, int k, vi &a) {
+    ll ans = 0;
+    int m = (k+1)/2;
+    // find the number of subseq where there are >= m number of 1s
+    int N = 0;
+    for (int x : a) if (x == 1) N++;
+    debug(N);
+    if (m > N) return 0;
+    // ANS = SUM(i=m -> k) (i parmi N) * (k-i parmi n-N)
+    for (int i=m; i<=k; ++i) {
+        ll p1 = parmi(i, N);
+        ll p2 = parmi(k-i, n-N);
+        debug(p1); debug(p2);
+        ans = (ans + (p1 * p2) % MOD) % MOD;
     }
-    return score;
+    return ans;
 }
 
 int main() {
 	ios_base::sync_with_stdio(false); cin.tie(0); cout.tie(0);
 	int t; cin >> t;
+    fill();
 	while (t--) {
-        ll n, k; cin >> n >> k;
-        vll a(n), b(n);
-        rep(i, 0, n) cin >> a[i];
-        rep(i, 0, n) cin >> b[i];
-        cout << solve(n, k, a, b) << nl;
+        int n, k; cin >> n >> k;
+        vi a(n); for (int &x : a) cin >> x;
+        cout << solve(n, k, a) << nl;
 	}
 	return 0;
 }

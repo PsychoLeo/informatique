@@ -56,14 +56,35 @@ typedef vector<vector<long long>> vvl;
 #define debug(x)
 #endif
 
+#define nl "\n"
 #define MOD 1000000007
 #define INF 
+
+pair<string, int> solve(int n, vector<string> &p) {
+	string s = "";
+	int ln = 0;
+	for (int i=0; i<n-1; ++i) {
+		if (ln == 0 && p[0][i+1] == '1' && p[1][i] == '0') {
+			s += p[0][i]; s += '0'; ln++;
+		}
+		else {
+			s += p[ln][i];
+		}
+	}
+	s += p[ln][n-1];
+	if (ln == 0) s += p[1][n-1];
+	return mp(s, 0);
+}
 
 int main() {
 	ios_base::sync_with_stdio(false); cin.tie(0); cout.tie(0);
 	int t; cin >> t;
 	while (t--) {
 		int n; cin >> n;
+		vector<string> p(2); cin >> p[0] >> p[1];
+		// cout << p[0] << nl << p[1] << nl;
+		pair<string, int> ans = solve(n, p);
+		cout << ans.se << nl << ans.fi << nl;
 	}
 	return 0;
 }

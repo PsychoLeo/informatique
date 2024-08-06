@@ -1,6 +1,6 @@
 /*
 * Author:  Léopold Bernard
-* Created: 30/07/2024 12:31:32
+* Created: 04/08/2024 11:41:06
 */
 
 #include <cstdio>
@@ -63,53 +63,38 @@ typedef vector<vector<long long>> vvl;
 #endif
 
 #define MOD 1000000007
-#define INF (ll)1e9
+#define INF 
 
-ll solve(ll n, ll k, vll &a, vll &b) {
-    ll lo = 0, hi = INF;
-    while (hi > lo) {
-        ll mid = (hi+lo)/2;
-        // debug(mid);
-        ll nb_op = 0;
-        for (int i=0; i<n; ++i) nb_op += max(0LL, (a[i]-mid)/b[i]);
-        if (nb_op > k) lo = mid+1;
-        else hi = mid;
+pii solve(int n, int m, vi &a, vi &b) {
+    int mx, mn;
+    int or_b = accumulate(b.begin(), b.end(), 0, bit_or<int>());
+    if (n % 2 == 0) {
+        mx = accumulate(a.begin(), a.end(), 0, bit_xor<int>());
+        mn = 0;
+        for (int i=0; i<n; ++i) {
+            mn ^= (a[i] | or_b);
+        }
     }
-    debug(lo);
-    // lo will contain the maximum value that can be a minimum for all the values of  
-    ll nb_op = k;
-    ll score = 0;
-    for (int i=0; i<n; ++i) {
-        ll m = max(0LL, (a[i]-lo)/b[i]);
-        nb_op -= m;
-        ll add_sc = m * a[i] - b[i] * m * (m-1) / 2;
-        // debug(add_sc);
-        score += add_sc;
-        a[i] -= m * b[i];
+    else {
+        mn = accumulate(a.begin(), a.end(), 0, bit_xor<int>());
+        mx = 0;
+        for (int i=0; i<n; ++i) {
+            mx ^= (a[i] | or_b);
+        }
     }
-    priority_queue<pll> pq;
-    for (int i=0; i<n; ++i) {
-        pq.push(mp(a[i], i));
-    }
-    for (int j=0; j<nb_op; ++j) {
-        pll p = pq.top();
-        pq.pop();
-        score += p.fi;
-        // debug(p.fi);
-        pq.push(mp(max(0LL, p.fi-b[p.se]), p.se));
-    }
-    return score;
+    return mp(mn, mx);
 }
 
 int main() {
 	ios_base::sync_with_stdio(false); cin.tie(0); cout.tie(0);
 	int t; cin >> t;
 	while (t--) {
-        ll n, k; cin >> n >> k;
-        vll a(n), b(n);
-        rep(i, 0, n) cin >> a[i];
-        rep(i, 0, n) cin >> b[i];
-        cout << solve(n, k, a, b) << nl;
+        int n, m; cin >> n >> m;
+        vi a(n), b(m);
+        for (int &x : a) cin >> x;
+        for (int &y : b) cin >> y;
+        pii p = solve(n, m, a,  b);
+        cout << p.fi << " " << p.se << nl;
 	}
 	return 0;
 }

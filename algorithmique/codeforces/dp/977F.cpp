@@ -1,6 +1,6 @@
 /*
 * Author:  Léopold Bernard
-* Created: 30/07/2024 12:31:32
+* Created: 03/08/2024 00:36:18
 */
 
 #include <cstdio>
@@ -63,53 +63,55 @@ typedef vector<vector<long long>> vvl;
 #endif
 
 #define MOD 1000000007
-#define INF (ll)1e9
+#define INF 
 
-ll solve(ll n, ll k, vll &a, vll &b) {
-    ll lo = 0, hi = INF;
-    while (hi > lo) {
-        ll mid = (hi+lo)/2;
-        // debug(mid);
-        ll nb_op = 0;
-        for (int i=0; i<n; ++i) nb_op += max(0LL, (a[i]-mid)/b[i]);
-        if (nb_op > k) lo = mid+1;
-        else hi = mid;
+void dbarr(vi &v) {
+    for (auto x: v) cout << x << " ";
+    cout << nl;
+}
+
+vi solve(int n, vi &a) {
+    vi dp(n, 1);
+    vi pred(n, 0);
+    for (int i=0; i<n; ++i) pred[i] = i;
+    set<pii> pq = {mp(a[0], 0)};
+    // dp[i] is the maximum result we can get using a[i]
+    for (int i=1; i<n; ++i) {
+        auto lo = pq.lower_bound(mp(a[i], -1));
+        if (lo != pq.begin()) {
+            lo = prev(lo);
+            if (a[lo->se] == a[i]-1) {
+                dp[i] = 1+dp[lo->se];
+                pred[i] = lo->se;
+            }
+        }
+        pq.emplace(mp(a[i], i));
     }
-    debug(lo);
-    // lo will contain the maximum value that can be a minimum for all the values of  
-    ll nb_op = k;
-    ll score = 0;
+    int maxv = 1, maxind = 0;
     for (int i=0; i<n; ++i) {
-        ll m = max(0LL, (a[i]-lo)/b[i]);
-        nb_op -= m;
-        ll add_sc = m * a[i] - b[i] * m * (m-1) / 2;
-        // debug(add_sc);
-        score += add_sc;
-        a[i] -= m * b[i];
+        if (dp[i] > maxv) {
+            maxv = dp[i];
+            maxind = i;
+        }
     }
-    priority_queue<pll> pq;
-    for (int i=0; i<n; ++i) {
-        pq.push(mp(a[i], i));
+    // dbarr(dp);
+    // dbarr(pred);
+    vi vals = {maxind+1};
+    while (pred[maxind] != maxind) {
+        maxind = pred[maxind];
+        vals.pb(maxind+1);
     }
-    for (int j=0; j<nb_op; ++j) {
-        pll p = pq.top();
-        pq.pop();
-        score += p.fi;
-        // debug(p.fi);
-        pq.push(mp(max(0LL, p.fi-b[p.se]), p.se));
-    }
-    return score;
+    reverse(all(vals));
+    return vals;
 }
 
 int main() {
 	ios_base::sync_with_stdio(false); cin.tie(0); cout.tie(0);
-	int t; cin >> t;
-	while (t--) {
-        ll n, k; cin >> n >> k;
-        vll a(n), b(n);
-        rep(i, 0, n) cin >> a[i];
-        rep(i, 0, n) cin >> b[i];
-        cout << solve(n, k, a, b) << nl;
-	}
+	int n; cin >> n;
+    vi a(n); for (int &x: a) cin >> x;
+    vi ans = solve(n, a);
+    cout << sz(ans) << nl;
+    for (int x: ans) cout << x << " ";
+    cout << nl;
 	return 0;
 }

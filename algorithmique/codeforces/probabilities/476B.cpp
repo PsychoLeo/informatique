@@ -1,6 +1,6 @@
 /*
 * Author:  Léopold Bernard
-* Created: 30/07/2024 12:31:32
+* Created: 02/08/2024 01:28:03
 */
 
 #include <cstdio>
@@ -19,6 +19,7 @@
 #include <vector>
 #include <array>
 #include <random>
+#include <iomanip>
 
 using namespace std;
 
@@ -63,53 +64,37 @@ typedef vector<vector<long long>> vvl;
 #endif
 
 #define MOD 1000000007
-#define INF (ll)1e9
+#define INF 
 
-ll solve(ll n, ll k, vll &a, vll &b) {
-    ll lo = 0, hi = INF;
-    while (hi > lo) {
-        ll mid = (hi+lo)/2;
-        // debug(mid);
-        ll nb_op = 0;
-        for (int i=0; i<n; ++i) nb_op += max(0LL, (a[i]-mid)/b[i]);
-        if (nb_op > k) lo = mid+1;
-        else hi = mid;
+ld solve(int x, int pos) {
+    int cnt = 0;
+    for (int mask=0; mask<(1<<x); ++mask) {
+        int v = 0;
+        for (int i=0; i<x; ++i) {
+            v += (mask & (1<<i)) ? 1:-1;
+        }
+        if (v == pos) ++cnt;
     }
-    debug(lo);
-    // lo will contain the maximum value that can be a minimum for all the values of  
-    ll nb_op = k;
-    ll score = 0;
-    for (int i=0; i<n; ++i) {
-        ll m = max(0LL, (a[i]-lo)/b[i]);
-        nb_op -= m;
-        ll add_sc = m * a[i] - b[i] * m * (m-1) / 2;
-        // debug(add_sc);
-        score += add_sc;
-        a[i] -= m * b[i];
-    }
-    priority_queue<pll> pq;
-    for (int i=0; i<n; ++i) {
-        pq.push(mp(a[i], i));
-    }
-    for (int j=0; j<nb_op; ++j) {
-        pll p = pq.top();
-        pq.pop();
-        score += p.fi;
-        // debug(p.fi);
-        pq.push(mp(max(0LL, p.fi-b[p.se]), p.se));
-    }
-    return score;
+    ld ans = (ld)cnt/(ld)pow(2, x); 
+    return ans;
 }
 
 int main() {
 	ios_base::sync_with_stdio(false); cin.tie(0); cout.tie(0);
-	int t; cin >> t;
-	while (t--) {
-        ll n, k; cin >> n >> k;
-        vll a(n), b(n);
-        rep(i, 0, n) cin >> a[i];
-        rep(i, 0, n) cin >> b[i];
-        cout << solve(n, k, a, b) << nl;
-	}
+	string a, b; cin >> a >> b;
+    int pos = 0;
+    for (int i=0; i<sz(a); ++i) {
+        pos += (a[i] == '+') ? 1:-1;
+    }
+    int x = 0;
+    for (int i=0; i<sz(b); ++i) {
+        if (b[i] == '?') x++;
+        else (pos += (b[i] == '+') ? -1:1);
+    }
+    // we now have to find the probability of moving from 0 to pos using x moves
+    // debug(x); debug(pos);
+    cout << fixed << setprecision(12);
+    cout << solve(x, pos) << endl;
+    // x deplacement parmi lesquels abs(pos)
 	return 0;
 }

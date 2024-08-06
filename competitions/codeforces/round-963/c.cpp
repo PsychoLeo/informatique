@@ -1,6 +1,6 @@
 /*
 * Author:  Léopold Bernard
-* Created: 30/07/2024 12:31:32
+* Created: 04/08/2024 16:30:53
 */
 
 #include <cstdio>
@@ -63,53 +63,41 @@ typedef vector<vector<long long>> vvl;
 #endif
 
 #define MOD 1000000007
-#define INF (ll)1e9
+#define INF 
 
-ll solve(ll n, ll k, vll &a, vll &b) {
-    ll lo = 0, hi = INF;
-    while (hi > lo) {
-        ll mid = (hi+lo)/2;
-        // debug(mid);
-        ll nb_op = 0;
-        for (int i=0; i<n; ++i) nb_op += max(0LL, (a[i]-mid)/b[i]);
-        if (nb_op > k) lo = mid+1;
-        else hi = mid;
-    }
-    debug(lo);
-    // lo will contain the maximum value that can be a minimum for all the values of  
-    ll nb_op = k;
-    ll score = 0;
-    for (int i=0; i<n; ++i) {
-        ll m = max(0LL, (a[i]-lo)/b[i]);
-        nb_op -= m;
-        ll add_sc = m * a[i] - b[i] * m * (m-1) / 2;
-        // debug(add_sc);
-        score += add_sc;
-        a[i] -= m * b[i];
-    }
-    priority_queue<pll> pq;
-    for (int i=0; i<n; ++i) {
-        pq.push(mp(a[i], i));
-    }
-    for (int j=0; j<nb_op; ++j) {
-        pll p = pq.top();
-        pq.pop();
-        score += p.fi;
-        // debug(p.fi);
-        pq.push(mp(max(0LL, p.fi-b[p.se]), p.se));
-    }
-    return score;
+ll solve (int n, int k, vll &a) {
+	sort(all(a));
+	// if there is a result, it is in the range [an, an+k-1]
+	ll lo = a[n-1], hi = a[n-1]+k-1;
+	for (int i=n-2; i>=0; --i) {
+		// cout << lo << " " << hi << nl;
+		ll p = lo-a[i];
+		p = p / (2 * k) + (p % (2 * k) != 0);
+		ll left2 = a[i] + 2 * p * k;
+		//debug(a[i]);
+		//debug(p);
+		// debug(left2);
+		ll right2 = left2 + k - 1;
+		ll left1 = left2 - 2 * k;
+		ll right1 = right2 - 2 * k;
+		if (left2 > hi && right1 < lo) return -1;
+		else if (left2 <= hi) {
+			lo = max(lo, left2);
+		}
+		else {
+			hi = min(hi, right1);
+		}
+	}
+	return lo;
 }
 
 int main() {
 	ios_base::sync_with_stdio(false); cin.tie(0); cout.tie(0);
 	int t; cin >> t;
 	while (t--) {
-        ll n, k; cin >> n >> k;
-        vll a(n), b(n);
-        rep(i, 0, n) cin >> a[i];
-        rep(i, 0, n) cin >> b[i];
-        cout << solve(n, k, a, b) << nl;
+		int n, k; cin >> n >> k;
+		vll a(n); for (ll &x: a) cin >> x;
+		cout << solve(n, k, a) << nl;
 	}
 	return 0;
 }

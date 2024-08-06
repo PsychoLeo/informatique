@@ -1,6 +1,6 @@
 /*
 * Author:  Léopold Bernard
-* Created: 30/07/2024 12:31:32
+* Created: 04/08/2024 16:30:50
 */
 
 #include <cstdio>
@@ -63,53 +63,47 @@ typedef vector<vector<long long>> vvl;
 #endif
 
 #define MOD 1000000007
-#define INF (ll)1e9
+#define INF 
 
-ll solve(ll n, ll k, vll &a, vll &b) {
-    ll lo = 0, hi = INF;
-    while (hi > lo) {
-        ll mid = (hi+lo)/2;
-        // debug(mid);
-        ll nb_op = 0;
-        for (int i=0; i<n; ++i) nb_op += max(0LL, (a[i]-mid)/b[i]);
-        if (nb_op > k) lo = mid+1;
-        else hi = mid;
-    }
-    debug(lo);
-    // lo will contain the maximum value that can be a minimum for all the values of  
-    ll nb_op = k;
-    ll score = 0;
-    for (int i=0; i<n; ++i) {
-        ll m = max(0LL, (a[i]-lo)/b[i]);
-        nb_op -= m;
-        ll add_sc = m * a[i] - b[i] * m * (m-1) / 2;
-        // debug(add_sc);
-        score += add_sc;
-        a[i] -= m * b[i];
-    }
-    priority_queue<pll> pq;
-    for (int i=0; i<n; ++i) {
-        pq.push(mp(a[i], i));
-    }
-    for (int j=0; j<nb_op; ++j) {
-        pll p = pq.top();
-        pq.pop();
-        score += p.fi;
-        // debug(p.fi);
-        pq.push(mp(max(0LL, p.fi-b[p.se]), p.se));
-    }
-    return score;
+int solve(int n, vi &a) {
+	int parity = a[0] % 2;
+	bool sameParity = true;
+	int biggestPair = 0, biggestImpair = 0;
+	int numPair = 0, numImpair = 0;
+	vi pairs;
+	vi impairs;
+	for (int i=0; i<n; ++i) {
+		if (a[i] % 2 != parity) sameParity = false;
+		if (a[i] % 2 == 0) {
+			chmax(biggestPair, a[i]);
+			numPair++;
+			pairs.pb(a[i]);
+		}
+		else {
+			chmax(biggestImpair, a[i]);
+			numImpair++;
+			impairs.pb(a[i]);
+		}
+	}
+	ll biggestFormedImpair = biggestImpair;
+	sort(all(pairs));
+	for (int i=0; i<numPair && pairs[i] < biggestFormedImpair; ++i) {
+		// debug(pairs[i]);
+		biggestFormedImpair += pairs[i];
+	}
+	// debug(biggestFormedImpair);
+	if (sameParity) return 0;
+	int numop = numPair + (biggestFormedImpair < biggestPair);
+	return numop;
 }
 
 int main() {
 	ios_base::sync_with_stdio(false); cin.tie(0); cout.tie(0);
 	int t; cin >> t;
 	while (t--) {
-        ll n, k; cin >> n >> k;
-        vll a(n), b(n);
-        rep(i, 0, n) cin >> a[i];
-        rep(i, 0, n) cin >> b[i];
-        cout << solve(n, k, a, b) << nl;
+		int n; cin >> n;
+		vi a(n); for (int &x: a) cin >> x;
+		cout << solve(n, a) << nl;
 	}
 	return 0;
 }
