@@ -2,7 +2,7 @@ from random import randint, choice
 
 p = [1, 2, 3, 4]
 c = [1, 2, 3, 4, 5, 6]
-MAX = 10*1000*1000
+MAX = 1000*1000
 wins = 0
 
 for i in range (MAX) :

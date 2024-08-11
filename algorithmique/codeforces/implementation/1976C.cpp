@@ -1,6 +1,6 @@
 /*
 * Author:  Léopold Bernard
-* Created: 06/08/2024 22:15:43
+* Created: 11/08/2024 11:05:45
 */
 
 #include <cstdio>
@@ -65,33 +65,62 @@ typedef vector<vector<long long>> vvl;
 #define MOD 1000000007
 #define INF 
 
-void solve() {
-    int lo = 1, hi = 1000;
-    while (lo < hi) {
-        int l = (2*lo + hi) / 3;
-        int r = (lo + 2*hi) / 3;
-        cout << "? " << l << " " << r << endl;
-        int p; cin >> p;
-        int a = l*r, b = l * (r+1), c = (l+1) * (r+1);
-        if (p == a) {
-            lo = r+1;
-        }
-        else if (p == b) {
-            lo = l + 1;
-            hi = r;
-        }
-        else {
-            hi = l;
-        }
-    }
-    cout << "! " << lo << endl;
+vll solve(int n, int m, vi &a, vi &b) {
+	vb categ(n+m+1);
+	vi p, t;
+	vi chg(n+m+1, -1);
+	bool changed = false;
+	for (int i=0; i<n+m; ++i) {
+		if (a[i] > b[i] && sz(p) < n) {
+			p.pb(i); categ[i] = 0;
+		}
+		else if (a[i] > b[i]) {
+			t.pb(i); categ[i] = 1;
+			if (!changed) for (int j: p) chg[j] = i;
+			changed = true;
+		}
+		else if (a[i] < b[i] && sz(t) < m) {
+			t.pb(i); categ[i] = 1;
+		}
+		else if (a[i] < b[i]) {
+			p.pb(i); categ[i] = 0;
+			if (!changed) for (int j : t) chg[j] = i;
+			changed = true;
+		}
+	}
+	ll s = 0;
+	for (int i=0; i<n+m; ++i) {
+		s += 1LL * ((categ[i] == 0) ? a[i] : b[i]);
+	}
+	vll ans;
+	for (int i=0; i<n+m; ++i) {
+		ll si = s;
+		bool c = categ[i];
+		si -= 1LL * (c ? b[i] : a[i]);
+		int j = chg[i];
+		if (j == -1) si += (c ? b[n+m] : a[n+m]);
+		else {
+			bool cj = categ[j];
+			si += abs(a[j] - b[j]);
+			si += (cj ? b[n+m] : a[n+m]);
+		}
+		ans.pb(si);
+	}
+	ans.pb(s);
+	return ans;
 }
 
 int main() {
 	ios_base::sync_with_stdio(false); cin.tie(0); cout.tie(0);
 	int t; cin >> t;
 	while (t--) {
-        solve();
+		int n, m; cin >> n >> m;
+		vi a(n+m+1);
+		vi b(n+m+1);
+		for (int i=0; i<n+m+1; ++i) cin >> a[i];
+		for (int i=0; i<n+m+1; ++i) cin >> b[i];
+		for (ll x : solve(n, m, a, b)) cout << x << " ";
+		cout << nl;
 	}
 	return 0;
 }

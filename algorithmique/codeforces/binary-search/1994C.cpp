@@ -28,6 +28,8 @@ using namespace std;
 #define fi first
 #define se second
 
+#define nl "\n"
+
 #define all(c) (c).begin(), (c).end()
 #define sz(x) (int)(x).size()
 #define rep(i, a, b) for(int i=a; i<(b); ++i)
@@ -64,17 +66,58 @@ typedef vector<vector<long long>> vvl;
 #define MOD 1000000007
 #define INF 
 
-ll solve(int n, int x, vi &a) {
-    // find number of subsegments of sum 
+int bin_search(vll &s, ll v, ll n, ll dep) {
+	// find minimum index such that s[i] > v, if index doesn't exist, return n
+	ll lo = dep, hi = n-1;
+	while (lo < hi) {
+		ll mid = (lo + hi) / 2;
+		if (s[mid] <= v) {
+			lo = mid + 1;
+		}
+		else hi = mid;
+	}
+	if (lo == n-1 && s[lo] <= v) return n;
+	return lo; 
+}
+
+void dbarr(vll &a) {
+	for (ll x : a) cout << x << " ";
+	cout << nl;
+}
+
+ll solve(ll n, ll x, vll &a) {
+    vll s(n);
+	ll somme = 0;
+	for (int i=0; i<n; ++i) {
+		somme += a[i];
+		s[i] = somme;
+	}
+	// dbarr(s);
+	vll nextz(n);
+	for (int l=0; l<n; ++l) {
+		ll to_reach = x + ((l == 0) ? 0 : s[l-1]);
+		nextz[l] = bin_search(s, to_reach, n, l);
+	}
+	// dbarr(nextz);
+	vll dp(n);
+	for (int l=n-1; l>=0; --l) {
+		ll nxt = nextz[l] + 1;
+		dp[l] = nextz[l] - l + ((nxt < n) ? dp[nxt] : 0);
+	}
+	ll ans = 0;
+	for (int i=0; i<n; ++i) {
+		ans += dp[i];
+	}
+	return ans;
 }
 
 int main() {
 	ios_base::sync_with_stdio(false); cin.tie(0); cout.tie(0);
 	int t; cin >> t;
 	while (t--) {
-        int n, x; cin >> n >> x;
-        vi a(n); rep(i, 0, n) cin >> a[i];
-        cout << solve(n, x, a) << "\n";
+        ll n, x; cin >> n >> x;
+        vll a(n); rep(i, 0, n) cin >> a[i];
+        cout << solve(n, x, a) << nl;
 	}
 	return 0;
 }

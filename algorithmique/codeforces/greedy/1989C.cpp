@@ -1,6 +1,6 @@
 /*
 * Author:  Léopold Bernard
-* Created: 06/08/2024 22:15:43
+* Created: 10/08/2024 18:06:57
 */
 
 #include <cstdio>
@@ -65,33 +65,37 @@ typedef vector<vector<long long>> vvl;
 #define MOD 1000000007
 #define INF 
 
-void solve() {
-    int lo = 1, hi = 1000;
-    while (lo < hi) {
-        int l = (2*lo + hi) / 3;
-        int r = (lo + 2*hi) / 3;
-        cout << "? " << l << " " << r << endl;
-        int p; cin >> p;
-        int a = l*r, b = l * (r+1), c = (l+1) * (r+1);
-        if (p == a) {
-            lo = r+1;
-        }
-        else if (p == b) {
-            lo = l + 1;
-            hi = r;
-        }
-        else {
-            hi = l;
-        }
-    }
-    cout << "! " << lo << endl;
+int solve(int n, vi &a, vi &b) {
+	int sa = 0, sb = 0;
+	int neg = 0, pos = 0; // nombre d'égalités négatifs et positifs
+	for (int i=0; i<n; ++i) {
+		if (a[i] == 1 && b[i] == 1) pos++;
+		else if (a[i] == -1 && b[i]== -1) neg++;
+		else if (a[i] == 1) sa++;
+		else if (b[i] == 1) sb++;
+		else if (a[i] == -1) sb += b[i];
+		else if (b[i] == -1) sa += a[i];
+	}
+	while (pos--) {
+		if (sa > sb) sb++;
+		else sa++;
+	}
+	while (neg--) {
+		if (sa > sb) sa--;
+		else sb--;
+	}
+	return min(sa, sb);
 }
 
 int main() {
 	ios_base::sync_with_stdio(false); cin.tie(0); cout.tie(0);
 	int t; cin >> t;
 	while (t--) {
-        solve();
+		int n; cin >> n;
+		vi a(n); vi b(n);
+		for (int &x : a) cin >> x;
+		for (int &y : b) cin >> y;
+		cout << solve(n, a, b) << nl;
 	}
 	return 0;
 }

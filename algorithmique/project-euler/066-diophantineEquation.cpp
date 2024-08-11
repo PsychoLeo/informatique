@@ -1,70 +1,62 @@
-#include <stdio.h>
+#include <iostream>
 #include <cmath>
-#include <vector>
-#define MAX 1001
-#define SQMAX 100*1000*1000
+#include <algorithm>
 
 using namespace std;
-using ll = unsigned long long int;
 
-bool isSquare[SQMAX];
-bool P[MAX];
+#define ll long long
 
-void fill() {
-    fill(isSquare, isSquare+SQMAX, false);
-    for (int i=0; i*i<SQMAX; i++) {
-        isSquare[i*i] = true;
+// Fonction pour calculer la racine carrée entière
+int intSqrt(int D) {
+    return static_cast<int>(std::sqrt(D));
+}
+
+// Fonction pour trouver la première solution de l'équation de Pell
+ll solvePellEquation(int D) {
+    ll sqrtD = (ll)intSqrt(D);
+
+    // Vérification si D est un carré parfait
+    if (sqrtD * sqrtD == D) {
+        return 0;
     }
-    P[0] = P[1] = false;
-    for (int i=2; i<MAX; i++) {
-        if (P[i]) {
-            for (int j=i*i; j<MAX; j+=i) {
-                P[j] = false;
-            }
-        }
+
+    ll m = 0;
+    ll d = 1;
+    ll a = sqrtD;
+
+    ll x0 = 1, x1 = a;
+    ll y0 = 0, y1 = 1;
+
+    // Algorithme pour trouver la première solution fondamentale
+    while (x1 * x1 - D * y1 * y1 != 1) {
+        m = d * a - m;
+        d = (D - m * m) / d;
+        a = (sqrtD + m) / d;
+
+        ll x2 = a * x1 + x0;
+        ll y2 = a * y1 + y0;
+
+        x0 = x1;
+        y0 = y1;
+        x1 = x2;
+        y1 = y2;
     }
+
+    return x1;
 }
 
 int main() {
-    fill();
-    ll maxX = 0, bestD = 0;
-    for (int D=1; D<MAX; D++) {
-        bool found = false;
-        if (P[D]) {
-            // If D prime, then x^2 = 1 (mod D) => x = +/-1 (mod D)
-            ll x1 = 1, x2 = D-1;
-            while (!found) {
-                ll sq1 = x1*x1, sq2 = x2*x2;
-                if (isSquare[(sq1-1)/D]) {
-                    found = true;
-                    if (x1 > maxX) {
-                        maxX = x1; bestD = D;
-                    }
-                }
-                if (isSquare[(sq2-1)/D]) {
-                    found = true;
-                    if (x2 > maxX) {
-                        maxX = x2; bestD = D;
-                    }
-                }
-                x1 += D; x2 += D;
-            }   
-        }
-        else if (!isSquare[D]) {
-            ll x = 2;
-            while (!found) {
-                ll sq = x*x;
-                if ((x*x)%D == 1) {
-                    if (isSquare[(sq-1)/D]) {
-                        found = true;
-                        if (x > maxX) {
-                            maxX = x; bestD = D;
-                        }
-                    }
-                }
-                x++;
-            }
+    ll maxx = 0;
+    int dval = 1;
+    for (int D=1; D<=1000; ++D) {
+        ll xd = solvePellEquation(D);
+        cout << xd <<endl;
+        if (xd > maxx) {
+            maxx = xd;
+            dval = D;
         }
     }
-    printf("x: %llu | D:%llu\n", maxX, bestD);
+    cout << maxx << endl;
+    cout << dval << endl;
+    return 0;
 }

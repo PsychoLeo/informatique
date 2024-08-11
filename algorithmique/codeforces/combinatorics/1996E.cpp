@@ -1,6 +1,6 @@
 /*
 * Author:  Léopold Bernard
-* Created: 06/08/2024 22:15:43
+* Created: 08/08/2024 13:13:35
 */
 
 #include <cstdio>
@@ -63,35 +63,33 @@ typedef vector<vector<long long>> vvl;
 #endif
 
 #define MOD 1000000007
-#define INF 
 
-void solve() {
-    int lo = 1, hi = 1000;
-    while (lo < hi) {
-        int l = (2*lo + hi) / 3;
-        int r = (lo + 2*hi) / 3;
-        cout << "? " << l << " " << r << endl;
-        int p; cin >> p;
-        int a = l*r, b = l * (r+1), c = (l+1) * (r+1);
-        if (p == a) {
-            lo = r+1;
-        }
-        else if (p == b) {
-            lo = l + 1;
-            hi = r;
-        }
-        else {
-            hi = l;
-        }
+ll solve(string &s) {
+    vll v = {0};
+    int n = sz(s);
+    for (int i=0; i<n; ++i) {
+        v.pb(v[i] + ((s[i] == '0') ? -1 : 1));
     }
-    cout << "! " << lo << endl;
+    map<ll, ll> cnt;
+    for (int i=0; i<=n; ++i) {
+        if (cnt.find(v[i]) == cnt.end()) cnt[v[i]] = i+1;
+        else cnt[v[i]] += (i+1);
+    }
+    ll ans = 0;
+    for (int l = n; l>0; --l) {
+        cnt[v[l]] -= (l+1);
+        ll add = ((n-l+1) * cnt[v[l]]) % MOD;
+        ans = (ans + add) % MOD;
+    }
+    return ans;
 }
 
 int main() {
 	ios_base::sync_with_stdio(false); cin.tie(0); cout.tie(0);
 	int t; cin >> t;
 	while (t--) {
-        solve();
+        string s; cin >> s;
+        cout << solve(s) << nl;
 	}
 	return 0;
 }

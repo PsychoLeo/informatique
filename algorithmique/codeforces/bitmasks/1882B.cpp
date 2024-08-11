@@ -1,6 +1,6 @@
 /*
 * Author:  Léopold Bernard
-* Created: 06/08/2024 22:15:43
+* Created: 07/08/2024 00:50:41
 */
 
 #include <cstdio>
@@ -65,33 +65,41 @@ typedef vector<vector<long long>> vvl;
 #define MOD 1000000007
 #define INF 
 
-void solve() {
-    int lo = 1, hi = 1000;
-    while (lo < hi) {
-        int l = (2*lo + hi) / 3;
-        int r = (lo + 2*hi) / 3;
-        cout << "? " << l << " " << r << endl;
-        int p; cin >> p;
-        int a = l*r, b = l * (r+1), c = (l+1) * (r+1);
-        if (p == a) {
-            lo = r+1;
+int solve(int n) {
+    vll a;
+    for (int i=0; i<n; ++i) {
+        int x; cin >> x;
+        ll s = 0;
+        for (int j=0; j<x; ++j) {
+            int p; cin >> p;
+            s |= (1LL << p);
         }
-        else if (p == b) {
-            lo = l + 1;
-            hi = r;
-        }
-        else {
-            hi = l;
+        a.pb(s);
+    }
+    ll union_max = 0;
+    for (int i=0; i<n; ++i) union_max |= a[i];
+    // we choose an element in the union and choose only to take the elements that don't have it - we then take the max of the cardinality of all the unions we've found doing so
+    int max_size = 0;
+    for (int i=1; i<=50; ++i) {
+        ll p = (1LL << i);
+        if ((union_max & p) == p) {
+            // it is an element of the union
+            ll union_without = 0;
+            for (int j=0; j<n; ++j) {
+                if ((a[j] & p) == 0) union_without |= a[j];
+            }
+            chmax(max_size, __builtin_popcountll(union_without));
         }
     }
-    cout << "! " << lo << endl;
+    return max_size;
 }
 
 int main() {
 	ios_base::sync_with_stdio(false); cin.tie(0); cout.tie(0);
 	int t; cin >> t;
 	while (t--) {
-        solve();
+        int n; cin >> n;
+        cout << solve(n) << nl;
 	}
 	return 0;
 }

@@ -1,6 +1,6 @@
 /*
 * Author:  Léopold Bernard
-* Created: 06/08/2024 22:15:43
+* Created: 11/08/2024 12:36:29
 */
 
 #include <cstdio>
@@ -65,33 +65,23 @@ typedef vector<vector<long long>> vvl;
 #define MOD 1000000007
 #define INF 
 
-void solve() {
-    int lo = 1, hi = 1000;
-    while (lo < hi) {
-        int l = (2*lo + hi) / 3;
-        int r = (lo + 2*hi) / 3;
-        cout << "? " << l << " " << r << endl;
-        int p; cin >> p;
-        int a = l*r, b = l * (r+1), c = (l+1) * (r+1);
-        if (p == a) {
-            lo = r+1;
-        }
-        else if (p == b) {
-            lo = l + 1;
-            hi = r;
-        }
-        else {
-            hi = l;
-        }
+vector<pii> solve(int n) {
+    vector<pii> ans = {mp(1, 1), mp(1, 2)};
+    for (int i=3; i<=n; ++i) {
+        ans.pb(mp(i, i));
     }
-    cout << "! " << lo << endl;
+    return ans;
 }
 
 int main() {
 	ios_base::sync_with_stdio(false); cin.tie(0); cout.tie(0);
 	int t; cin >> t;
 	while (t--) {
-        solve();
+        int n; cin >> n;
+        for (pii p : solve(n)) {
+            cout << p.fi << " " << p.se << nl;
+        }
+        if (t) cout << nl;
 	}
 	return 0;
 }

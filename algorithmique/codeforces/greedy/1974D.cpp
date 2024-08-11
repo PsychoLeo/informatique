@@ -1,6 +1,6 @@
 /*
 * Author:  Léopold Bernard
-* Created: 06/08/2024 22:15:43
+* Created: 11/08/2024 00:06:03
 */
 
 #include <cstdio>
@@ -65,33 +65,37 @@ typedef vector<vector<long long>> vvl;
 #define MOD 1000000007
 #define INF 
 
-void solve() {
-    int lo = 1, hi = 1000;
-    while (lo < hi) {
-        int l = (2*lo + hi) / 3;
-        int r = (lo + 2*hi) / 3;
-        cout << "? " << l << " " << r << endl;
-        int p; cin >> p;
-        int a = l*r, b = l * (r+1), c = (l+1) * (r+1);
-        if (p == a) {
-            lo = r+1;
-        }
-        else if (p == b) {
-            lo = l + 1;
-            hi = r;
-        }
-        else {
-            hi = l;
-        }
+string solve(int n, string &s) {
+    if (n % 2) return "NO";
+    string ans(n, 'R');
+    map<char, int> cnt;
+    map<char, int> last;
+    for (char c: {'N', 'E', 'S', 'W'}) cnt[c] = 0;
+    for (int i=0; i<n; ++i) {
+        if (cnt[s[i]] % 2) ans[i] = 'H';
+        cnt[s[i]]++;
+        last[s[i]] = i;
     }
-    cout << "! " << lo << endl;
+    int som = (cnt['N'] % 2) + (cnt['S'] % 2) + (cnt['E'] % 2)+ (cnt['W'] % 2);
+    if (som == 0) return ans;
+    if (som == 4) {
+        ans[last['N']] = 'H';
+        ans[last['S']] = 'H';
+        return ans;
+    }
+    if (som % 2) return "NO";
+    if (n == 2) return "NO";
+    int som2 = (cnt['N'] % 2) + (cnt['S'] % 2)*2 + (cnt['E'] % 2)*4 + (cnt['W'] % 2)*8;
+    return (som2 == 3 || som2 == 12) ? ans : "NO";
 }
 
 int main() {
 	ios_base::sync_with_stdio(false); cin.tie(0); cout.tie(0);
 	int t; cin >> t;
 	while (t--) {
-        solve();
+        int n; cin >> n; 
+        string s; cin >> s;
+        cout << solve(n, s) << nl;
 	}
 	return 0;
 }

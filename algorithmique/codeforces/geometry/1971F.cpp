@@ -1,6 +1,6 @@
 /*
 * Author:  Léopold Bernard
-* Created: 06/08/2024 22:15:43
+* Created: 10/08/2024 19:51:40
 */
 
 #include <cstdio>
@@ -65,33 +65,38 @@ typedef vector<vector<long long>> vvl;
 #define MOD 1000000007
 #define INF 
 
-void solve() {
-    int lo = 1, hi = 1000;
-    while (lo < hi) {
-        int l = (2*lo + hi) / 3;
-        int r = (lo + 2*hi) / 3;
-        cout << "? " << l << " " << r << endl;
-        int p; cin >> p;
-        int a = l*r, b = l * (r+1), c = (l+1) * (r+1);
-        if (p == a) {
-            lo = r+1;
-        }
-        else if (p == b) {
-            lo = l + 1;
-            hi = r;
-        }
-        else {
-            hi = l;
+
+
+ll solve(ll r) {
+    set<pll> vis;
+    vector<pii> moves = {mp(1, 0), mp(0, -1), mp(1, -1)};
+    ll ans = 0;
+    deque<pll> tovis = {mp(0, r)};
+    while (!tovis.empty()) {
+        pll p = tovis.front();
+        tovis.pop_front();
+        if (p.fi == r && p.se == 0) break;
+        if (vis.find(p) == vis.end()) {
+            vis.emplace(p);
+            ll x = p.fi, y = p.se;
+            ll dist = x*x+y*y;
+            if (r*r <= dist && dist <= r*r+2*r) {
+                ans++;
+                for (pii d : moves) {
+                    tovis.pb(mp(p.fi+d.fi, p.se+d.se));
+                }
+            }
         }
     }
-    cout << "! " << lo << endl;
+    return 4*ans;
 }
 
 int main() {
 	ios_base::sync_with_stdio(false); cin.tie(0); cout.tie(0);
 	int t; cin >> t;
 	while (t--) {
-        solve();
+        ll r; cin >> r;
+        cout << solve(r) << nl;
 	}
 	return 0;
 }

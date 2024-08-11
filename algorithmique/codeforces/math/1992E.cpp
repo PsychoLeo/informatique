@@ -1,6 +1,6 @@
 /*
 * Author:  Léopold Bernard
-* Created: 06/08/2024 22:15:43
+* Created: 08/08/2024 01:34:14
 */
 
 #include <cstdio>
@@ -65,33 +65,27 @@ typedef vector<vector<long long>> vvl;
 #define MOD 1000000007
 #define INF 
 
-void solve() {
-    int lo = 1, hi = 1000;
-    while (lo < hi) {
-        int l = (2*lo + hi) / 3;
-        int r = (lo + 2*hi) / 3;
-        cout << "? " << l << " " << r << endl;
-        int p; cin >> p;
-        int a = l*r, b = l * (r+1), c = (l+1) * (r+1);
-        if (p == a) {
-            lo = r+1;
-        }
-        else if (p == b) {
-            lo = l + 1;
-            hi = r;
-        }
-        else {
-            hi = l;
+vector<pii> solve(int n) {
+    vector<pii> ans;
+    string num = to_string(n);
+    string s = num + num + num + num + num + num;
+    for (int a = 1; a <= 10000; ++a) {
+        for (int b=max(1, a * sz(num)-6); b<=a * sz(num)-1; ++b) {
+            string namb = s.substr(0, a*sz(num)-b);
+            if (stoi(namb) == (n * a - b)) ans.pb(mp(a, b));
         }
     }
-    cout << "! " << lo << endl;
+    return ans;
 }
 
 int main() {
 	ios_base::sync_with_stdio(false); cin.tie(0); cout.tie(0);
 	int t; cin >> t;
 	while (t--) {
-        solve();
+        int n; cin >> n;
+        vector<pii> s = solve(n);
+        cout << sz(s) << nl;
+        for (pii p: s) cout << p.fi << " " << p.se << nl;
 	}
 	return 0;
 }

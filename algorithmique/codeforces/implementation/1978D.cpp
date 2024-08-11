@@ -1,6 +1,6 @@
 /*
 * Author:  Léopold Bernard
-* Created: 06/08/2024 22:15:43
+* Created: 11/08/2024 00:42:04
 */
 
 #include <cstdio>
@@ -65,33 +65,41 @@ typedef vector<vector<long long>> vvl;
 #define MOD 1000000007
 #define INF 
 
-void solve() {
-    int lo = 1, hi = 1000;
-    while (lo < hi) {
-        int l = (2*lo + hi) / 3;
-        int r = (lo + 2*hi) / 3;
-        cout << "? " << l << " " << r << endl;
-        int p; cin >> p;
-        int a = l*r, b = l * (r+1), c = (l+1) * (r+1);
-        if (p == a) {
-            lo = r+1;
-        }
-        else if (p == b) {
-            lo = l + 1;
-            hi = r;
-        }
-        else {
-            hi = l;
-        }
+vi solve(int n, int c, vi a) {
+    vi ans(n, 0);
+    vll prefix(n, 0);
+    vi max_sfx(n);
+    int curr_max = a[n-1];
+    for (int i=n-1; i>=0; --i) {
+        chmax(curr_max, a[i]);
+        max_sfx[i] = curr_max;
     }
-    cout << "! " << lo << endl;
+    vi max_pref(n);
+    curr_max = a[0];
+    ll sum_votes = 1LL * c;
+    for (int i=0; i<n; ++i) {
+        chmax(curr_max, a[i]);
+        max_pref[i] = curr_max;
+        sum_votes += 1LL * a[i];
+        prefix[i] = sum_votes;
+    }
+    ans[0] = (a[0] + c < max_sfx[0]);
+    for (int i=1; i<n; ++i) {
+        if ((a[i] >= max_sfx[0]) && (a[i] > a[0] + c) && (a[i] > max_pref[i-1])) ans[i] = 0;
+        else ans[i] = i+(prefix[i] < max_sfx[i]);
+    }
+    return ans;
 }
 
 int main() {
 	ios_base::sync_with_stdio(false); cin.tie(0); cout.tie(0);
 	int t; cin >> t;
 	while (t--) {
-        solve();
+        int n, c; cin >> n >> c;
+        vi a(n);
+        for (int i=0; i<n; ++i) cin >> a[i];
+        for (int x: solve(n, c, a)) cout << x << " ";
+        cout << nl;
 	}
 	return 0;
 }

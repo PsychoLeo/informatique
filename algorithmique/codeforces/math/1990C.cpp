@@ -69,24 +69,26 @@ ll solve(int n, vi &a) {
     ll c = 0;
     unordered_set<int> v;
     int curr_mad = 0;
-    rep(i, 0, n) {
+    for (int i=0; i<n; ++i) {
         c += a[i];
         if (v.find(a[i]) == v.end()) v.emplace(a[i]);
         else (curr_mad = max(curr_mad, a[i]));
         a[i] = curr_mad;
     }
-    for (int i=0; i<n;) {
-        int num = a[i]; ll d = a[i];
-        int j = i;
-        for (; j<n && a[j] == a[i]; ++j) {
-            d = 1LL * num * (j-i+1);
-            c += d;
-        }
-        if (j-i > 1) c += d * (n-j);
-        i = j;
+    v.clear();
+    vi mad(n);
+    curr_mad = 0;
+    for (int i=0; i<n; ++i) {
+        c += a[i];
+        mad[i] = curr_mad;
+        if (v.find(a[i]) == v.end()) v.emplace(a[i]);
+        else (curr_mad = max(curr_mad, a[i]));
+        mad[i] = curr_mad;
     }
-    // rep(i, 0, n) cout << a[i] << " ";
-    // cout << nl;
+    // got rid of all elements which will not appear twice
+    for (int i=0; i<n; ++i) {
+        c += 1LL * mad[i] * (n - i);
+    }
     return c;
 }
 

@@ -1,6 +1,6 @@
 /*
 * Author:  Léopold Bernard
-* Created: 06/08/2024 22:15:43
+* Created: 08/08/2024 12:45:29
 */
 
 #include <cstdio>
@@ -65,33 +65,29 @@ typedef vector<vector<long long>> vvl;
 #define MOD 1000000007
 #define INF 
 
-void solve() {
-    int lo = 1, hi = 1000;
-    while (lo < hi) {
-        int l = (2*lo + hi) / 3;
-        int r = (lo + 2*hi) / 3;
-        cout << "? " << l << " " << r << endl;
-        int p; cin >> p;
-        int a = l*r, b = l * (r+1), c = (l+1) * (r+1);
-        if (p == a) {
-            lo = r+1;
-        }
-        else if (p == b) {
-            lo = l + 1;
-            hi = r;
-        }
-        else {
-            hi = l;
-        }
+ll gcd(ll a, ll b) {
+    if (b == 0) return a;
+    return gcd(b, a%b);
+}
+
+vll solve(int n, int m, vll &a, vll &b) {
+    ll g = 0;
+    vll ans;
+    for (int i=1; i<n; ++i) {
+        g = gcd(g, abs(a[i]-a[0]));
     }
-    cout << "! " << lo << endl;
+    for (int j=0; j<m; ++j) {
+        ans.pb(gcd(g, a[0] + b[j]));
+    }
+    return ans;
 }
 
 int main() {
 	ios_base::sync_with_stdio(false); cin.tie(0); cout.tie(0);
-	int t; cin >> t;
-	while (t--) {
-        solve();
-	}
+    int n, m; cin >> n >> m;
+    vll a(n); for (ll &x: a) cin >> x;
+    vll b(m); for (ll &y: b) cin >> y;
+    for (ll x: solve(n, m, a, b)) cout << x << " ";
+    cout << nl;
 	return 0;
 }

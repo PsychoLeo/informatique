@@ -60,7 +60,9 @@ typedef vector<vector<long long>> vvl;
 #define INF 
 
 int solve (int n) {
-    return 0;
+    int m = n/2;
+	if (n % 2) return 2 * (m+1) * (m+2);
+	else return (m + 1) * (m+1);
 }
 
 int main() {

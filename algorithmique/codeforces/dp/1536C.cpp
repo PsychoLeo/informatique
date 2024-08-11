@@ -1,6 +1,6 @@
 /*
 * Author:  Léopold Bernard
-* Created: 06/08/2024 22:15:43
+* Created: 10/08/2024 11:02:55
 */
 
 #include <cstdio>
@@ -65,33 +65,38 @@ typedef vector<vector<long long>> vvl;
 #define MOD 1000000007
 #define INF 
 
-void solve() {
-    int lo = 1, hi = 1000;
-    while (lo < hi) {
-        int l = (2*lo + hi) / 3;
-        int r = (lo + 2*hi) / 3;
-        cout << "? " << l << " " << r << endl;
-        int p; cin >> p;
-        int a = l*r, b = l * (r+1), c = (l+1) * (r+1);
-        if (p == a) {
-            lo = r+1;
-        }
-        else if (p == b) {
-            lo = l + 1;
-            hi = r;
+int gcd(int a, int b) {
+    return ((b == 0) ? a : gcd(b, a%b));
+}
+
+vi solve(int n, string &s) {
+    vi ans;
+    map<pii, int> last;
+    pii cnt = mp(0, 0);
+    for (int i=0; i<n; ++i) {
+        cnt.fi += (s[i] == 'D');
+        cnt.se += (s[i] == 'K');
+        int g = gcd(cnt.fi, cnt.se);
+        pii p = mp(cnt.fi/g, cnt.se/g);
+        if (last.find(p) == last.end()) {
+            ans.pb(1);
         }
         else {
-            hi = l;
+            ans.pb(last[p]+1);
         }
+        last[p]++;
     }
-    cout << "! " << lo << endl;
+    return ans;
 }
 
 int main() {
 	ios_base::sync_with_stdio(false); cin.tie(0); cout.tie(0);
 	int t; cin >> t;
 	while (t--) {
-        solve();
+        int n; cin >> n;
+        string s; cin >> s;
+        for (int x : solve(n, s)) cout << x << " ";
+        cout << nl;
 	}
 	return 0;
 }
