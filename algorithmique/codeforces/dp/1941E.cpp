@@ -1,3 +1,8 @@
+/*
+* Author:  Léopold Bernard
+* Created: 11/08/2024 14:10:16
+*/
+
 #include <cstdio>
 #include <iostream>
 #include <algorithm>
@@ -25,6 +30,7 @@ using namespace std;
 
 #define all(c) (c).begin(), (c).end()
 #define sz(x) (int)(x).size()
+#define rep(i, a, b) for(int i=a; i<(b); ++i)
 #define nl "\n"
 
 template<class T> inline bool chmax(T& a, T b) { if (a < b) { a = b; return 1; } return 0; }
@@ -57,13 +63,47 @@ typedef vector<vector<long long>> vvl;
 #endif
 
 #define MOD 1000000007
-#define INF (int)1e9
+#define INF 
+
+ll solve(int n, int m, int k, int d, vvi &a) {
+	// dp[i][j] = min we have to build if we put a bridge on j (in row i)
+	// dp[i][j] = min(dp[i][j-1], dp[i][j], ..., dp[i][max(0, j-d)]) + a[i][j] + 1
+	vector<vll> dp(n, vll(m, 0));
+	for (int i=0; i<n; ++i) {
+		map<ll, set<int>> prev;
+		dp[i][0] = 1;
+		prev[1] = {0};
+		for (int j=1; j<m; ++j) {
+			auto mx = prev.begin();
+			ll v = a[i][j] + 1 + mx->first;
+			dp[i][j] = v;
+			if (j > d) {
+				ll rm_val = dp[i][j-d-1];
+				prev[rm_val].erase(j-d-1);
+				if (sz(prev[rm_val]) == 0) prev.erase(rm_val);
+			}
+			if (prev.find(v) == prev.end()) prev[v].emplace(j);
+			else prev[v] = {j};
+		}
+	}
+	ll currsum = 0;
+	for (int i=0; i<k; ++i) currsum += dp[i][m-1];
+	ll ans = currsum;
+	for (int i=k; i<n; ++i) {
+		currsum += dp[i][m-1] - dp[i-k][m-1];
+		chmin(ans, currsum);
+	}
+	return ans;
+}
 
 int main() {
-	ios_base::sync_with_stdio(0); cin.tie(0); cout.tie(0);
+	ios_base::sync_with_stdio(false); cin.tie(0); cout.tie(0);
 	int t; cin >> t;
 	while (t--) {
-	
+		int n, m, k, d; cin >> n >> m >> k >> d;
+		vvi a(n, vi(m));
+		for (int i=0; i<n; ++i) for (int j=0; j<m; ++j) cin >> a[i][j];
+		cout << solve(n, m, k, d, a) << nl;
 	}
 	return 0;
 }

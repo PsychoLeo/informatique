@@ -1,3 +1,8 @@
+/*
+* Author:  Léopold Bernard
+* Created: 13/08/2024 11:45:26
+*/
+
 #include <cstdio>
 #include <iostream>
 #include <algorithm>
@@ -25,6 +30,7 @@ using namespace std;
 
 #define all(c) (c).begin(), (c).end()
 #define sz(x) (int)(x).size()
+#define rep(i, a, b) for(int i=a; i<(b); ++i)
 #define nl "\n"
 
 template<class T> inline bool chmax(T& a, T b) { if (a < b) { a = b; return 1; } return 0; }
@@ -57,13 +63,42 @@ typedef vector<vector<long long>> vvl;
 #endif
 
 #define MOD 1000000007
-#define INF (int)1e9
+#define EPS 1e-12 
+
+ll solve(int n, vi &a) {
+    bool isincr = true;
+    int j = (a[0]) ? 0 : n-1; // index of first element different of 1
+    for (int i=1; i<n; ++i) {
+        if (a[i] != 1) j = min(j, i);
+        if (a[i] == 1 && a[i-1] > 1) return -1;
+        else if (a[i] < a[i-1]) isincr = false;
+    }
+    if (isincr) return 0;
+    ll ans = 0;
+    vector<ld> na;
+    for (int i=j; i<n; ++i) {
+        ld llx = log2(log2((ld)a[i]));
+        na.pb(llx);
+    }
+    int m = sz(na);
+    ll toadd = 0;
+    for (int i=1; i<m; ++i) {
+        ld v = na[i-1] - na[i];
+        if (v - floor(v) < EPS) v = floor(v);
+        v = ceil(v);
+        toadd = max(0LL, toadd + (ll)v);
+        ans += toadd;
+    }
+    return ans;
+}
 
 int main() {
-	ios_base::sync_with_stdio(0); cin.tie(0); cout.tie(0);
+	ios_base::sync_with_stdio(false); cin.tie(0); cout.tie(0);
 	int t; cin >> t;
 	while (t--) {
-	
+        int n; cin >> n;
+        vi a(n); for (int &x : a) cin >> x;
+        cout << solve(n, a) << nl;
 	}
 	return 0;
 }

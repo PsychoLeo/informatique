@@ -1,3 +1,8 @@
+/*
+* Author:  Léopold Bernard
+* Created: 14/08/2024 12:37:33
+*/
+
 #include <cstdio>
 #include <iostream>
 #include <algorithm>
@@ -25,6 +30,7 @@ using namespace std;
 
 #define all(c) (c).begin(), (c).end()
 #define sz(x) (int)(x).size()
+#define rep(i, a, b) for(int i=a; i<(b); ++i)
 #define nl "\n"
 
 template<class T> inline bool chmax(T& a, T b) { if (a < b) { a = b; return 1; } return 0; }
@@ -57,13 +63,30 @@ typedef vector<vector<long long>> vvl;
 #endif
 
 #define MOD 1000000007
-#define INF (int)1e9
+#define INF 
+
+vector<pii> solve(int xc, int yc, int k) {
+    vector<pii> ans;
+    if (k % 2) ans.pb(mp(0, 0));
+    for (int i=0; i<k/2; ++i) {
+        ans.pb(mp(-1000+i, 0));
+        ans.pb(mp(1000-i, 0));
+    }
+    for (int i=0; i<k; ++i) {
+        ans[i].fi += xc;
+        ans[i].se += yc;
+    }
+    return ans;
+}
 
 int main() {
-	ios_base::sync_with_stdio(0); cin.tie(0); cout.tie(0);
+	ios_base::sync_with_stdio(false); cin.tie(0); cout.tie(0);
 	int t; cin >> t;
 	while (t--) {
-	
+        int xc, yc, k; cin >> xc >> yc >> k;
+        for (auto p : solve(xc, yc, k)) {
+            cout << p.fi << " " << p.se << nl;
+        }
 	}
 	return 0;
 }

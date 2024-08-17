@@ -1,3 +1,8 @@
+/*
+* Author:  Léopold Bernard
+* Created: 16/08/2024 11:07:56
+*/
+
 #include <cstdio>
 #include <iostream>
 #include <algorithm>
@@ -25,6 +30,7 @@ using namespace std;
 
 #define all(c) (c).begin(), (c).end()
 #define sz(x) (int)(x).size()
+#define rep(i, a, b) for(int i=a; i<(b); ++i)
 #define nl "\n"
 
 template<class T> inline bool chmax(T& a, T b) { if (a < b) { a = b; return 1; } return 0; }
@@ -57,13 +63,35 @@ typedef vector<vector<long long>> vvl;
 #endif
 
 #define MOD 1000000007
-#define INF (int)1e9
+#define INF 
+
+int solve(int n, vi &a, vi &b) {
+    vi inda(n);
+    for (int i=0; i<n; ++i) inda[a[i]] = i;
+    int last = n-1;
+    for (int i=n-1; i>=0; --i) {
+        int j = inda[b[i]];
+        if (j > last) return i+1;
+        last = min(last, j);
+    }
+    return 0;
+}
 
 int main() {
-	ios_base::sync_with_stdio(0); cin.tie(0); cout.tie(0);
+	ios_base::sync_with_stdio(false); cin.tie(0); cout.tie(0);
 	int t; cin >> t;
 	while (t--) {
-	
+        int n; cin >> n;
+        vi a(n), b(n);
+        for (int i=0; i<n; ++i) {
+            int x; cin >> x;
+            a[i] = x-1;
+        }
+        for (int i=0; i<n; ++i) {
+            int x; cin >> x;
+            b[i] = x-1;
+        }
+        cout << solve(n, a, b) << nl;
 	}
 	return 0;
 }

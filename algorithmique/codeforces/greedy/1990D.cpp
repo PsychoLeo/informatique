@@ -1,3 +1,8 @@
+/*
+* Author:  Léopold Bernard
+* Created: 14/08/2024 13:00:25
+*/
+
 #include <cstdio>
 #include <iostream>
 #include <algorithm>
@@ -25,6 +30,7 @@ using namespace std;
 
 #define all(c) (c).begin(), (c).end()
 #define sz(x) (int)(x).size()
+#define rep(i, a, b) for(int i=a; i<(b); ++i)
 #define nl "\n"
 
 template<class T> inline bool chmax(T& a, T b) { if (a < b) { a = b; return 1; } return 0; }
@@ -57,13 +63,41 @@ typedef vector<vector<long long>> vvl;
 #endif
 
 #define MOD 1000000007
-#define INF (int)1e9
+#define INF 
+
+pii longestOptimal(int i, int n, vi &a) {
+    if (a[i] == 0) return mp(i+1, 0);
+    if (i == n-1) return mp(i+1, 1);
+    if (a[i] <= 2) {
+        if (a[i+1] <= 2) return mp(i+2, 1);
+        int j = i+1;
+        while (j < n && 2 < a[j] && a[j] <= 4) ++j;
+        if (j == n) return mp(j, n-i);
+        else if ((j-i) % 2 && a[j] <= 2) return mp(j+1, j-i);
+        else return mp(j, j-i);
+    }
+    else {
+        return mp(i+1, 1);
+    }
+}
+
+int solve(int n, vi &a) {
+    int ans = 0;
+    for (int i=0; i<n;) {
+        pii p = longestOptimal(i, n, a);
+        ans += p.se;
+        i = p.fi;
+    }
+    return ans;
+}
 
 int main() {
-	ios_base::sync_with_stdio(0); cin.tie(0); cout.tie(0);
+	ios_base::sync_with_stdio(false); cin.tie(0); cout.tie(0);
 	int t; cin >> t;
 	while (t--) {
-	
+        int n; cin >> n;
+        vi a(n); for (int &x : a) cin >> x;
+        cout << solve(n, a) << nl;
 	}
 	return 0;
 }

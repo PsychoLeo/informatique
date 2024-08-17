@@ -1,3 +1,8 @@
+/*
+* Author:  Léopold Bernard
+* Created: 15/08/2024 12:57:33
+*/
+
 #include <cstdio>
 #include <iostream>
 #include <algorithm>
@@ -25,6 +30,7 @@ using namespace std;
 
 #define all(c) (c).begin(), (c).end()
 #define sz(x) (int)(x).size()
+#define rep(i, a, b) for(int i=a; i<(b); ++i)
 #define nl "\n"
 
 template<class T> inline bool chmax(T& a, T b) { if (a < b) { a = b; return 1; } return 0; }
@@ -57,13 +63,47 @@ typedef vector<vector<long long>> vvl;
 #endif
 
 #define MOD 1000000007
-#define INF (int)1e9
+#define INF 
+
+set<int> divisors(int n) {
+    set<int> ans = {1, n};
+    for (int i=2; i<(int)sqrt(n)+1; ++i) {
+        if (n % i == 0) {
+            ans.emplace(i);
+            ans.emplace(n/i);
+        }
+    }
+    return ans;
+}
+
+int gcd(int a, int b) {
+    return (b == 0) ? a : gcd(b, a%b);
+}
+
+int solve(int n, vi &a) {
+    set<int> divn = divisors(n);
+    //for (int d : divn) cout << d << " ";
+    //cout << nl;
+    int ans = 0;
+    for (int d : divn) {
+        int g = 0;
+        for (int i=0; i<d; ++i) {
+            for (int j=i; j<n; j += d) {
+                g = gcd(g, abs(a[i]-a[j]));
+            }
+        }
+        if (g != 1) ans++;
+    }
+    return ans;
+}
 
 int main() {
-	ios_base::sync_with_stdio(0); cin.tie(0); cout.tie(0);
+	ios_base::sync_with_stdio(false); cin.tie(0); cout.tie(0);
 	int t; cin >> t;
 	while (t--) {
-	
+        int n; cin >> n;
+        vi a(n); for (int &x : a) cin >> x;
+        cout << solve(n, a) << nl;
 	}
 	return 0;
 }

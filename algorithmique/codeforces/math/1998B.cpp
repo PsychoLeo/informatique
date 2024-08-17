@@ -1,3 +1,8 @@
+/*
+* Author:  Léopold Bernard
+* Created: 17/08/2024 01:17:16
+*/
+
 #include <cstdio>
 #include <iostream>
 #include <algorithm>
@@ -63,7 +68,12 @@ int main() {
 	ios_base::sync_with_stdio(0); cin.tie(0); cout.tie(0);
 	int t; cin >> t;
 	while (t--) {
-	
+        int n; cin >> n;
+        vi a(n);
+        for (int i=1; i<n; ++i) cin >> a[i];
+        cin >> a[0];
+        for (int x: a) cout << x << " ";
+        cout << nl;
 	}
 	return 0;
 }

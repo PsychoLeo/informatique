@@ -1,3 +1,8 @@
+/*
+* Author:  Léopold Bernard
+* Created: 16/08/2024 13:05:06
+*/
+
 #include <cstdio>
 #include <iostream>
 #include <algorithm>
@@ -25,6 +30,7 @@ using namespace std;
 
 #define all(c) (c).begin(), (c).end()
 #define sz(x) (int)(x).size()
+#define rep(i, a, b) for(int i=a; i<(b); ++i)
 #define nl "\n"
 
 template<class T> inline bool chmax(T& a, T b) { if (a < b) { a = b; return 1; } return 0; }
@@ -57,13 +63,48 @@ typedef vector<vector<long long>> vvl;
 #endif
 
 #define MOD 1000000007
-#define INF (int)1e9
+#define INF 
+
+pair<int, vi> solve(int n, vvi &adj, vector<pii> &edges) {
+    vi ans;
+    // O(n + m) part
+    for (int i=0; i<n; ++i) {
+        if (sz(adj[i]) < n-1) {
+            // cout << i+1 << endl;
+            for (auto [a, b] : edges) {
+                if (a == i || b == i) ans.pb(1);
+                else ans.pb(2);
+            }
+            return mp(2, ans);
+        }
+    }
+    // all nodes are connected to another one
+    for (auto [a, b] : edges) {
+        if ((a == 0 && b < n-1) || (a < n-1 && b == 0)) ans.pb(1);
+        else if ((a == 1 && b > 0) || (a > 0 && b==1)) ans.pb(2);
+        else ans.pb(3);
+    }
+    return mp(3, ans);
+}
 
 int main() {
-	ios_base::sync_with_stdio(0); cin.tie(0); cout.tie(0);
+	ios_base::sync_with_stdio(false); cin.tie(0); cout.tie(0);
 	int t; cin >> t;
 	while (t--) {
-	
+        int n, m; cin >> n >> m;
+        vvi adj(n, vi());
+        vector<pii> edges;
+        for (int i=0; i<m; ++i) {
+            int a, b; cin >> a >> b;
+            --a; --b;
+            edges.pb(mp(a, b));
+            adj[a].pb(b);
+            adj[b].pb(a);
+        }
+        pair<int, vi> ans = solve(n, adj, edges);
+        cout << ans.fi << nl;
+        for (int x : ans.se) cout << x << " ";
+        cout << nl;
 	}
 	return 0;
 }

@@ -1,3 +1,8 @@
+/*
+* Author:  Léopold Bernard
+* Created: 11/08/2024 12:59:56
+*/
+
 #include <cstdio>
 #include <iostream>
 #include <algorithm>
@@ -25,6 +30,7 @@ using namespace std;
 
 #define all(c) (c).begin(), (c).end()
 #define sz(x) (int)(x).size()
+#define rep(i, a, b) for(int i=a; i<(b); ++i)
 #define nl "\n"
 
 template<class T> inline bool chmax(T& a, T b) { if (a < b) { a = b; return 1; } return 0; }
@@ -57,13 +63,56 @@ typedef vector<vector<long long>> vvl;
 #endif
 
 #define MOD 1000000007
-#define INF (int)1e9
+#define INF 
+
+ll somme (vvi &a) {
+    ll ans = 0;
+    int n = sz(a);
+    for (int i=0; i<n; ++i) {
+        for (int x : a[i]) {
+            ans += 1LL * x;
+        }
+    }
+    return ans;
+}
+
+void print(vvi &a) {
+    int n = sz(a);
+    for (int i=0; i<n; ++i) {
+        for (int x : a[i]) {
+            cout << x << " ";
+        }
+        cout << nl;
+    }
+}
+
+void solve(int n) {
+    vvi a(n, vi(n, 0));
+    for (int i=0; i<n; ++i) {
+        for (int j=0; j<n; ++j) {
+            a[i][j] = n - j;
+            a[j][i] = n - j;
+        }
+    }
+    ll s = somme(a);
+    // print(a);
+    cout << s << " " << 2*n << nl;
+    for (int i=0; i<n; ++i) {
+        cout << 1 << " " << (i+1) << " ";
+        for (int j=n; j>=1; --j) cout << j << " ";
+        cout << nl;
+        cout << 2 << " " << (i+1) << " ";
+        for (int j=n; j>=1; --j) cout << j << " ";
+        cout << nl;
+    }
+}
 
 int main() {
-	ios_base::sync_with_stdio(0); cin.tie(0); cout.tie(0);
+	ios_base::sync_with_stdio(false); cin.tie(0); cout.tie(0);
 	int t; cin >> t;
 	while (t--) {
-	
+        int n; cin >> n;
+        solve(n);
 	}
 	return 0;
 }

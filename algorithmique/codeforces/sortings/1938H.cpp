@@ -1,3 +1,8 @@
+/*
+* Author:  Léopold Bernard
+* Created: 12/08/2024 11:25:06
+*/
+
 #include <cstdio>
 #include <iostream>
 #include <algorithm>
@@ -25,6 +30,7 @@ using namespace std;
 
 #define all(c) (c).begin(), (c).end()
 #define sz(x) (int)(x).size()
+#define rep(i, a, b) for(int i=a; i<(b); ++i)
 #define nl "\n"
 
 template<class T> inline bool chmax(T& a, T b) { if (a < b) { a = b; return 1; } return 0; }
@@ -57,13 +63,41 @@ typedef vector<vector<long long>> vvl;
 #endif
 
 #define MOD 1000000007
-#define INF (int)1e9
+#define INF 
+
+int solve(int n, vector<string> &v) {
+    vector<pii> t;
+    vector<pii> zo;
+    int ans = 0;
+    bool onlyz = true, onlyo = true;
+    for (int i=0; i<n; ++i) {
+        int zcnt=0, ocnt = 0;
+        for (char c : v[i]) ((c == '0') ? zcnt++ : ocnt++);
+        if (zcnt > 0) onlyz = false;
+        if (ocnt > 0) onlyo = false;
+        t.pb(mp(zcnt-ocnt, i));
+        zo.pb(mp(zcnt, ocnt));
+    }
+    if (onlyz || onlyo) return 0;
+    sort(all(t));
+    int t1 = t[0].se, t0 = t[n-1].se;
+    //debug(t0);
+    //debug(t1);
+    
+    for (int i=0; i<n; ++i) {
+        pii ti = zo[i];
+        if (i == t0) ans += ti.se;
+        else if (i == t1) ans += ti.fi;
+        else ans += min(ti.fi, ti.se);
+    }
+    return ans;
+}
 
 int main() {
-	ios_base::sync_with_stdio(0); cin.tie(0); cout.tie(0);
-	int t; cin >> t;
-	while (t--) {
-	
-	}
+	ios_base::sync_with_stdio(false); cin.tie(0); cout.tie(0);
+	int n; cin >> n;
+    vector<string> v(n);
+	for (int i=0; i<n; ++i) cin >> v[i];
+    cout << solve(n, v) << nl;
 	return 0;
 }

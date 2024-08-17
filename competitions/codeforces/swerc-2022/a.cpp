@@ -1,3 +1,8 @@
+/*
+* Author:  Léopold Bernard
+* Created: 16/08/2024 10:54:40
+*/
+
 #include <cstdio>
 #include <iostream>
 #include <algorithm>
@@ -25,6 +30,7 @@ using namespace std;
 
 #define all(c) (c).begin(), (c).end()
 #define sz(x) (int)(x).size()
+#define rep(i, a, b) for(int i=a; i<(b); ++i)
 #define nl "\n"
 
 template<class T> inline bool chmax(T& a, T b) { if (a < b) { a = b; return 1; } return 0; }
@@ -57,13 +63,25 @@ typedef vector<vector<long long>> vvl;
 #endif
 
 #define MOD 1000000007
-#define INF (int)1e9
+#define INF 
+
+string solve(int n, vi &a) {
+	int cnt = 0;
+	for (int i=0; i<=n; ++i) {
+		cnt += (a[i+1] - a[i]) / 120;
+		if (cnt >= 2) return "YES";
+	}
+	return "NO";
+}
 
 int main() {
-	ios_base::sync_with_stdio(0); cin.tie(0); cout.tie(0);
+	ios_base::sync_with_stdio(false); cin.tie(0); cout.tie(0);
 	int t; cin >> t;
 	while (t--) {
-	
+		int n; cin >> n; 
+		vi a(n+2); a[0] = -1; a[n+1] = 1440;
+		for (int i=1; i<=n; ++i) cin >> a[i];
+		cout << solve(n, a) << nl;
 	}
 	return 0;
 }
