@@ -1,6 +1,6 @@
 /*
 * Author:  Léopold Bernard
-* Created: 25/07/2024 14:53:35
+* Created: 19/09/2024 15:34:07
 */
 
 #include <cstdio>
@@ -30,7 +30,7 @@ using namespace std;
 
 #define all(c) (c).begin(), (c).end()
 #define sz(x) (int)(x).size()
-#define rep(i, a, b) for(int i=a; i<(b); ++i)
+#define nl "\n"
 
 template<class T> inline bool chmax(T& a, T b) { if (a < b) { a = b; return 1; } return 0; }
 template<class T> inline bool chmin(T& a, T b) { if (a > b) { a = b; return 1; } return 0; }
@@ -56,57 +56,43 @@ typedef vector<vector<long long>> vvl;
 
 #define DEBUG true
 #ifdef DEBUG
-#define debug(x) cout << #x << "=" << x << "\n";
+#define debug(x) cout << #x << "=" << x << "\n"
 #else
 #define debug(x)
 #endif
 
-#define nl "\n"
-
 #define MOD 1000000007
-#define INF 1e9
+#define INF (int)1e9
+
+ll compute (ll n, ll k, ll i) {
+	ll x1 = k * (i + 1) + i * (i + 1)/2;
+	ll x2 = k * (n-i-1) + (n-i-1)*(n+i)/2;
+	return abs(x1-x2);
+}
+
+ll solve(ll n, ll k) {
+	ll lo = 0, hi = n-1, mid = (hi + lo)/2;
+	if (n == 2) return 1;
+	while (hi >= lo) {
+		mid = (lo + hi) / 2;
+		ll a = compute(n, k, mid-1);
+		ll b = compute(n, k, mid);
+		ll c = compute(n, k, mid+1);
+		// debug(mid);
+		// debug(b);
+		if (a >= b && b <= c) return b;
+		if (a <= b && b < c) hi = mid-1;
+		else lo = mid+1;
+	}
+	return compute(n, k, mid);
+}
 
 int main() {
-	ios_base::sync_with_stdio(false); cin.tie(0); cout.tie(0);
-	int n; cin >> n;
-    vector<pair<string, int>> rounds;
-    map<string, int> sc;
-    for (int i=0; i<n; ++i) {
-        string person; int score; cin >> person >> score;
-        if (sc.find(person) == sc.end()) sc[person] = score;
-        else sc[person] += score;
-        rounds.pb(mp(person, score));
-    }
-    int maxsc = -INF;
-    vector<string> playersMaxScore;
-    for (auto [p, score] : sc) {
-        if (score > maxsc) {
-            maxsc = score;
-            playersMaxScore = {p};
-        }
-        else if (score == maxsc) playersMaxScore.pb(p);
-    }
-    if (sz(playersMaxScore) == 1) {
-        cout << playersMaxScore[0] << "\n";
-        return 0;
-    }
-    else {
-        // cout << "Hello" << nl;
-        map<string, int> sc2;
-        deque<string> candidates;
-        for (auto [pers, score] : rounds) {
-            if (sc2.find(pers) == sc2.end()) sc2[pers] = score;
-            else sc2[pers] += score;
-            if (sc2[pers] >= maxsc) candidates.pb(pers);
-        }
-        while (1) {
-            string p = candidates.front();
-            candidates.pop_front();
-            if (sc2[p] == maxsc) {
-                cout << p << "\n";
-                return 0;
-            }
-        }
-    }
+	ios_base::sync_with_stdio(0); cin.tie(0); cout.tie(0);
+	int t; cin >> t;
+	while (t--) {
+		ll n, k; cin >> n >> k;
+		cout << solve(n, k) << nl;
+	}
 	return 0;
 }

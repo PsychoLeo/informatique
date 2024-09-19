@@ -1,6 +1,6 @@
 /*
 * Author:  Léopold Bernard
-* Created: 25/07/2024 14:53:35
+* Created: 19/08/2024 14:02:33
 */
 
 #include <cstdio>
@@ -30,7 +30,7 @@ using namespace std;
 
 #define all(c) (c).begin(), (c).end()
 #define sz(x) (int)(x).size()
-#define rep(i, a, b) for(int i=a; i<(b); ++i)
+#define nl "\n"
 
 template<class T> inline bool chmax(T& a, T b) { if (a < b) { a = b; return 1; } return 0; }
 template<class T> inline bool chmin(T& a, T b) { if (a > b) { a = b; return 1; } return 0; }
@@ -56,57 +56,51 @@ typedef vector<vector<long long>> vvl;
 
 #define DEBUG true
 #ifdef DEBUG
-#define debug(x) cout << #x << "=" << x << "\n";
+#define debug(x) cout << #x << "=" << x << "\n"
 #else
 #define debug(x)
 #endif
 
-#define nl "\n"
-
 #define MOD 1000000007
-#define INF 1e9
+#define INF (int)1e9
+
+string solve(int n, int m, vvi &a) {
+    for (int i=0; i<n-1; ++i) {
+        for (int j=0; j<m-1; ++j) {
+            // cout << a[i][j] << nl;
+            int v = a[i][j];
+            a[i][j] = 0;
+            a[i][m-1] = (a[i][m-1] + v) % 3;
+            a[n-1][j] = (a[n-1][j] + v) % 3;
+            a[n-1][m-1] = (a[n-1][m-1] + 3 - v) % 3;
+        }
+        if (a[i][m-1]) return "NO";
+    }
+    for (int j=0; j<m; ++j) if (a[n-1][j]) return "NO";
+    return "YES";
+}
 
 int main() {
-	ios_base::sync_with_stdio(false); cin.tie(0); cout.tie(0);
-	int n; cin >> n;
-    vector<pair<string, int>> rounds;
-    map<string, int> sc;
-    for (int i=0; i<n; ++i) {
-        string person; int score; cin >> person >> score;
-        if (sc.find(person) == sc.end()) sc[person] = score;
-        else sc[person] += score;
-        rounds.pb(mp(person, score));
-    }
-    int maxsc = -INF;
-    vector<string> playersMaxScore;
-    for (auto [p, score] : sc) {
-        if (score > maxsc) {
-            maxsc = score;
-            playersMaxScore = {p};
-        }
-        else if (score == maxsc) playersMaxScore.pb(p);
-    }
-    if (sz(playersMaxScore) == 1) {
-        cout << playersMaxScore[0] << "\n";
-        return 0;
-    }
-    else {
-        // cout << "Hello" << nl;
-        map<string, int> sc2;
-        deque<string> candidates;
-        for (auto [pers, score] : rounds) {
-            if (sc2.find(pers) == sc2.end()) sc2[pers] = score;
-            else sc2[pers] += score;
-            if (sc2[pers] >= maxsc) candidates.pb(pers);
-        }
-        while (1) {
-            string p = candidates.front();
-            candidates.pop_front();
-            if (sc2[p] == maxsc) {
-                cout << p << "\n";
-                return 0;
+	ios_base::sync_with_stdio(0); cin.tie(0); cout.tie(0);
+	int t; cin >> t;
+	while (t--) {
+        int n, m; cin >> n >> m;
+        vvi a(n, vi(m, 0));
+        for (int i=0; i<n; ++i) {
+            string s; cin >> s;
+            for (int j=0; j<m; ++j) {
+                a[i][j] = (s[j] - '0');
             }
         }
-    }
+        for (int i=0; i<n; ++i) {
+            string s; cin >> s;
+            for (int j=0; j<m; ++j) {
+                int x = (s[j] - '0'); a[i][j] = (a[i][j] - x + 3) % 3;
+                // cout << a[i][j] << " ";
+            }
+            // cout << nl;
+        }
+        cout << solve(n, m, a) << nl;
+	}
 	return 0;
 }

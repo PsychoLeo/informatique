@@ -1,6 +1,6 @@
 /*
 * Author:  Léopold Bernard
-* Created: 25/07/2024 14:53:35
+* Created: 25/08/2024 16:33:19
 */
 
 #include <cstdio>
@@ -30,7 +30,7 @@ using namespace std;
 
 #define all(c) (c).begin(), (c).end()
 #define sz(x) (int)(x).size()
-#define rep(i, a, b) for(int i=a; i<(b); ++i)
+#define nl "\n"
 
 template<class T> inline bool chmax(T& a, T b) { if (a < b) { a = b; return 1; } return 0; }
 template<class T> inline bool chmin(T& a, T b) { if (a > b) { a = b; return 1; } return 0; }
@@ -56,57 +56,36 @@ typedef vector<vector<long long>> vvl;
 
 #define DEBUG true
 #ifdef DEBUG
-#define debug(x) cout << #x << "=" << x << "\n";
+#define debug(x) cout << #x << "=" << x << "\n"
 #else
 #define debug(x)
 #endif
 
-#define nl "\n"
-
 #define MOD 1000000007
-#define INF 1e9
+#define INF (int)1e9
+
+string solve(int n, string &s) {
+	return (s[0] == s[n-1]) ? "NO" : "YES";
+	vb first(26, false);
+	vb last(26, false);
+	unordered_set<char> letters;
+	for (int i=0; i<n; ++i) {
+		if (letters.find(s[i]) == letters.end()) {
+			letters.emplace(s[i]);
+		}
+		if (sz(letters) >= 4) return "YES";
+	}
+	if (sz(letters) == 1) return "NO";
+
+}
 
 int main() {
-	ios_base::sync_with_stdio(false); cin.tie(0); cout.tie(0);
-	int n; cin >> n;
-    vector<pair<string, int>> rounds;
-    map<string, int> sc;
-    for (int i=0; i<n; ++i) {
-        string person; int score; cin >> person >> score;
-        if (sc.find(person) == sc.end()) sc[person] = score;
-        else sc[person] += score;
-        rounds.pb(mp(person, score));
-    }
-    int maxsc = -INF;
-    vector<string> playersMaxScore;
-    for (auto [p, score] : sc) {
-        if (score > maxsc) {
-            maxsc = score;
-            playersMaxScore = {p};
-        }
-        else if (score == maxsc) playersMaxScore.pb(p);
-    }
-    if (sz(playersMaxScore) == 1) {
-        cout << playersMaxScore[0] << "\n";
-        return 0;
-    }
-    else {
-        // cout << "Hello" << nl;
-        map<string, int> sc2;
-        deque<string> candidates;
-        for (auto [pers, score] : rounds) {
-            if (sc2.find(pers) == sc2.end()) sc2[pers] = score;
-            else sc2[pers] += score;
-            if (sc2[pers] >= maxsc) candidates.pb(pers);
-        }
-        while (1) {
-            string p = candidates.front();
-            candidates.pop_front();
-            if (sc2[p] == maxsc) {
-                cout << p << "\n";
-                return 0;
-            }
-        }
-    }
+	ios_base::sync_with_stdio(0); cin.tie(0); cout.tie(0);
+	int t; cin >> t;
+	while (t--) {
+		int n; cin >> n;
+		string s; cin >> s;
+		cout << solve(n, s) << nl;
+	}
 	return 0;
 }
