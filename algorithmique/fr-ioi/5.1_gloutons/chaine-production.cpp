@@ -1,6 +1,6 @@
 /*
 * Author:  Léopold Bernard
-* Created: 13/10/2024 13:57:01
+* Created: 12/10/2024 20:06:57
 */
 
 #include <cstdio>
@@ -57,32 +57,39 @@ typedef vector<vector<long long>> vvl;
 #define MOD 1000000007
 #define INF (int)1e9
 
-int n;
-vector<pii> t;
+int n, ma, mb;
+vi a, b;
+priority_queue<pii, vector<pii>, greater<pii>> ta, tb; // temps auquel les machines nous rendont les objets
 
-int solve() {
-    int ans = 0;
-}
-
-bool cmp(pii pair1, pii pair2) {
-    // returns true iff p1 < p2
-    int l1 = pair1.fi, p1 = pair1.se;
-    int l2 = pair2.fi, p2 = pair2.se;
-    if (l1-p1 > l2-p2) return true;
-    else if (l1-p1 == l2-p2) return (p1 < p2);
-    return false;
+void solve() {
+    int t_a = 0, t_b = 0;
+    vi times;
+    for (int i=0; i<n; ++i) {
+        pii pa = ta.top(); ta.pop();
+        t_a = pa.fi;
+        ta.push(mp(pa.fi+pa.se, pa.se));
+        times.pb(t_a);
+    }
+    cout << t_a << nl;
+    for (int i=0; i<n; ++i) {
+        pii pb = tb.top(); tb.pop();
+        t_b = max(t_b, times[n-1-i] + pb.fi);
+        tb.push(mp(pb.fi+pb.se, pb.se));
+    }
+    cout << t_b << nl;
 }
 
 int main() {
 	ios_base::sync_with_stdio(0); cin.tie(0); cout.tie(0);
-	cin >> n;
-    int l, p;
-    for (int i=0; i<n; ++i) {
-        cin >> l >> p;
-        t.pb(mp(l, p));
+	cin >> n >> ma; 
+    int x;
+    for (int i=0; i<ma; ++i) {
+        cin >> x; a.pb(x); ta.push(mp(x, x));
     }
-    sort(all(t), cmp);
-    // for (pii pr: t) cout << pr.fi << " " << pr.se << nl;
-    cout << solve() << nl;
+    cin >> mb;
+    for (int i=0; i<mb; ++i) {
+        cin >> x; b.pb(x); tb.push(mp(x, x));
+    }
+    solve();
 	return 0;
 }

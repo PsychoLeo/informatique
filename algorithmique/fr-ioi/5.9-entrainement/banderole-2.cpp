@@ -1,6 +1,6 @@
 /*
 * Author:  Léopold Bernard
-* Created: 22/07/2024 14:27:27
+* Created: 12/10/2024 17:49:39
 */
 
 #include <cstdio>
@@ -30,7 +30,8 @@ using namespace std;
 
 #define all(c) (c).begin(), (c).end()
 #define sz(x) (int)(x).size()
-#define rep(i, a, b) for(int i=a; i<(b); ++i)
+#define nl "\n"
+
 
 typedef vector<int> vi;
 typedef vector<double> vd;
@@ -48,46 +49,32 @@ typedef vector<vector<long long>> vvl;
 
 #define DEBUG true
 #ifdef DEBUG
-#define debug(x) cout << #x << "=" << x << "\n";
+#define debug(x) cout << #x << "=" << x << "\n"
 #else
 #define debug(x)
 #endif
 
-#define INF 20000000
+#define MOD 1000000007
+#define INF (int)1e9
 
+int l, n, h;
 
-int solve(int l, int n, vi &h) {
-    vi next_sup(n, n); // prochain indice avec un élément strictement supérieur
-    h.pb(INF);
-    vector<pii> queue;
-    for (int i=0; i<n;) {
-        int j = i;
-        while (j < n && h[j+1] <= h[j]) { // tant que c'est décroissant
-            queue.pb(mp(j, h[j]));
-            ++j;
-        }
-        queue.pb(mp(j, h[j]));
-        while (!queue.empty() && queue.back().se < h[j+1]) {
-            pii p = queue.back();
-            queue.pop_back();
-            next_sup[p.fi] = j+1;
-        }
-        i = j+1;
+int solve() {
+    int ans = 0;
+    deque<pii> piquets;
+    for (int i=0; i<n; ++i) {
+        cin >> h;
+        while (!piquets.empty() && h > piquets.back().fi) piquets.pop_back();
+        while (!piquets.empty() && piquets.front().se < i-l) piquets.pop_front();
+        if (!piquets.empty() && piquets.front().fi == h && piquets.front().se == i-l) ans++;
+        piquets.push_back(mp(h, i));
     }
-    // rep(i, 0, n) cout << next_sup[i] << " ";
-    int c = 0;
-    for (int i=0; i+l<n; ++i) {
-        if (h[i] == h[i+l] && next_sup[i] > i+l) {
-            ++c;
-        }
-    }
-    return c;
+    return ans;
 }
 
 int main() {
-	ios_base::sync_with_stdio(false); cin.tie(0); cout.tie(0);
-	int l, n; cin >> l >> n;
-    vi h(n); rep(i, 0, n) cin >> h[i];
-    cout << solve(l, n, h) << endl;
+	ios_base::sync_with_stdio(0); cin.tie(0); cout.tie(0);
+	cin >> l >> n;
+    cout << solve() << nl;
 	return 0;
 }

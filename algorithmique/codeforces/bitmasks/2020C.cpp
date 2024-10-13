@@ -1,6 +1,6 @@
 /*
 * Author:  Léopold Bernard
-* Created: 13/10/2024 13:57:01
+* Created: 07/10/2024 09:03:03
 */
 
 #include <cstdio>
@@ -32,6 +32,13 @@ using namespace std;
 #define sz(x) (int)(x).size()
 #define nl "\n"
 
+template<class T> inline bool chmax(T& a, T b) { if (a < b) { a = b; return 1; } return 0; }
+template<class T> inline bool chmin(T& a, T b) { if (a > b) { a = b; return 1; } return 0; }
+
+template<class T> long long sum(const T& a){ return accumulate(a.begin(), a.end(), 0LL); }
+template<class T> auto min(const T& a){ return *min_element(a.begin(), a.end()); }
+template<class T> auto max(const T& a){ return *max_element(a.begin(), a.end()); }
+
 
 typedef vector<int> vi;
 typedef vector<double> vd;
@@ -57,32 +64,31 @@ typedef vector<vector<long long>> vvl;
 #define MOD 1000000007
 #define INF (int)1e9
 
-int n;
-vector<pii> t;
-
-int solve() {
-    int ans = 0;
-}
-
-bool cmp(pii pair1, pii pair2) {
-    // returns true iff p1 < p2
-    int l1 = pair1.fi, p1 = pair1.se;
-    int l2 = pair2.fi, p2 = pair2.se;
-    if (l1-p1 > l2-p2) return true;
-    else if (l1-p1 == l2-p2) return (p1 < p2);
-    return false;
+ll solve(ull b, ull c, ull d) {
+    ll a = 0;
+    for (int i=0; i<62; ++i) {
+        ll bit = (1LL<<i);
+        if (d & bit) {
+            if (b & bit) continue;
+            else if (c & bit) return -1LL;
+            else (a |= bit);
+        }
+        else {
+            if (b & bit) {
+                if (c & bit) (a |= bit);
+                else return -1LL;
+            }
+        }
+    }
+    return a;
 }
 
 int main() {
 	ios_base::sync_with_stdio(0); cin.tie(0); cout.tie(0);
-	cin >> n;
-    int l, p;
-    for (int i=0; i<n; ++i) {
-        cin >> l >> p;
-        t.pb(mp(l, p));
-    }
-    sort(all(t), cmp);
-    // for (pii pr: t) cout << pr.fi << " " << pr.se << nl;
-    cout << solve() << nl;
+	int t; cin >> t;
+	while (t--) {
+        ll b, c, d; cin >> b >> c >> d;
+        cout << solve(b, c, d) << nl;
+	}
 	return 0;
 }
