@@ -1,9 +1,9 @@
 import random
 
 def genLaserPath():
-    MAXLIMIT = 100
-    height = random.randint(2, MAXLIMIT)
-    width = random.randint(2, 2*height)
+    MAXLIMIT = 1000
+    height = MAXLIMIT
+    width = MAXLIMIT
     grid = [['.']*width for _ in range (height)]
     for i in range (height) :
         for j in range (width) :

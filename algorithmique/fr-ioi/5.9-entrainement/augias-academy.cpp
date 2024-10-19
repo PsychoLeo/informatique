@@ -1,6 +1,6 @@
 /*
 * Author:  Léopold Bernard
-* Created: 13/10/2024 13:57:01
+* Created: 13/10/2024 20:12:07
 */
 
 #include <cstdio>
@@ -57,41 +57,24 @@ typedef vector<vector<long long>> vvl;
 #define MOD 1000000007
 #define INF (int)1e9
 
-int n;
-vector<pii> t;
+int t, l, e;
+vvb a;
 
-int solve() {
-    int ans = 0;
-    int lastUsed = INF;
-    for (int i=0; i<n; ++i) {
-        pii pr = t[i];
-        int l = pr.fi, p = pr.se;
-        if (lastUsed-p >= 0) {
-            ans++; lastUsed = min(l-p, lastUsed-2*p);
-        }
-    }
-    return ans;
-}
+void solve() {
 
-bool cmp(pii pair1, pii pair2) {
-    // returns true iff p1 < p2
-    int l1 = pair1.fi, p1 = pair1.se;
-    int l2 = pair2.fi, p2 = pair2.se;
-    if (l1-p1 > l2-p2) return true;
-    else if (l1-p1 == l2-p2) return (p1 < p2);
-    return false;
 }
 
 int main() {
 	ios_base::sync_with_stdio(0); cin.tie(0); cout.tie(0);
-	cin >> n;
-    int l, p;
-    for (int i=0; i<n; ++i) {
-        cin >> l >> p;
-        t.pb(mp(l, p));
+	cin >> t >> l >> e;
+    a.assign(t, vb(l, true));
+    char c;
+    for (int i=0; i<t; ++i) {
+        for (int j=0; j<l; ++j) {
+            cin >> c;
+            if (c == '#') a[i][j] = false;
+        }
     }
-    sort(all(t), cmp);
-    // for (pii pr: t) cout << pr.fi << " " << pr.se << nl;
-    cout << solve() << nl;
+    solve();
 	return 0;
 }

@@ -1,6 +1,6 @@
 /*
 * Author:  Léopold Bernard
-* Created: 13/10/2024 13:57:01
+* Created: 18/10/2024 16:33:51
 */
 
 #include <cstdio>
@@ -32,6 +32,13 @@ using namespace std;
 #define sz(x) (int)(x).size()
 #define nl "\n"
 
+template<class T> inline bool chmax(T& a, T b) { if (a < b) { a = b; return 1; } return 0; }
+template<class T> inline bool chmin(T& a, T b) { if (a > b) { a = b; return 1; } return 0; }
+
+template<class T> long long sum(const T& a){ return accumulate(a.begin(), a.end(), 0LL); }
+template<class T> auto min(const T& a){ return *min_element(a.begin(), a.end()); }
+template<class T> auto max(const T& a){ return *max_element(a.begin(), a.end()); }
+
 
 typedef vector<int> vi;
 typedef vector<double> vd;
@@ -57,41 +64,17 @@ typedef vector<vector<long long>> vvl;
 #define MOD 1000000007
 #define INF (int)1e9
 
-int n;
-vector<pii> t;
-
-int solve() {
-    int ans = 0;
-    int lastUsed = INF;
-    for (int i=0; i<n; ++i) {
-        pii pr = t[i];
-        int l = pr.fi, p = pr.se;
-        if (lastUsed-p >= 0) {
-            ans++; lastUsed = min(l-p, lastUsed-2*p);
-        }
-    }
-    return ans;
-}
-
-bool cmp(pii pair1, pii pair2) {
-    // returns true iff p1 < p2
-    int l1 = pair1.fi, p1 = pair1.se;
-    int l2 = pair2.fi, p2 = pair2.se;
-    if (l1-p1 > l2-p2) return true;
-    else if (l1-p1 == l2-p2) return (p1 < p2);
-    return false;
-}
-
 int main() {
 	ios_base::sync_with_stdio(0); cin.tie(0); cout.tie(0);
-	cin >> n;
-    int l, p;
-    for (int i=0; i<n; ++i) {
-        cin >> l >> p;
-        t.pb(mp(l, p));
+	string s; cin >> s;
+    int longestrep = 0;
+    int n = sz(s);
+    for (int i=0; i<n;) {
+        int j = i+1;
+        while (j < n && s[j] == s[i]) ++j;
+        longestrep = max(longestrep, j-i);
+        i = j;
     }
-    sort(all(t), cmp);
-    // for (pii pr: t) cout << pr.fi << " " << pr.se << nl;
-    cout << solve() << nl;
+    cout << longestrep << nl;
 	return 0;
 }

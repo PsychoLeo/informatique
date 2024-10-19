@@ -1,6 +1,6 @@
 /*
 * Author:  Léopold Bernard
-* Created: 13/10/2024 13:57:01
+* Created: 14/10/2024 10:54:09
 */
 
 #include <cstdio>
@@ -57,41 +57,59 @@ typedef vector<vector<long long>> vvl;
 #define MOD 1000000007
 #define INF (int)1e9
 
-int n;
-vector<pii> t;
+int n, m; // number of nodes
+vector<vector<int>> adj; // adjacency list of graph
+vector<bool> visited;
+vector<int> tin, low;
+set<pii> ans;
+int timer;
 
-int solve() {
-    int ans = 0;
-    int lastUsed = INF;
-    for (int i=0; i<n; ++i) {
-        pii pr = t[i];
-        int l = pr.fi, p = pr.se;
-        if (lastUsed-p >= 0) {
-            ans++; lastUsed = min(l-p, lastUsed-2*p);
+void dfs(int v, int p = -1) {
+    visited[v] = true;
+    tin[v] = low[v] = timer++;
+    bool parent_skipped = false;
+    for (int to : adj[v]) {
+        if (to == p && !parent_skipped) {
+            parent_skipped = true;
+            continue;
+        }
+        if (visited[to]) {
+            low[v] = min(low[v], tin[to]);
+        } else {
+            dfs(to, v);
+            low[v] = min(low[v], low[to]);
+            if (low[to] > tin[v])
+				ans.emplace(mp(v, to));
         }
     }
-    return ans;
 }
 
-bool cmp(pii pair1, pii pair2) {
-    // returns true iff p1 < p2
-    int l1 = pair1.fi, p1 = pair1.se;
-    int l2 = pair2.fi, p2 = pair2.se;
-    if (l1-p1 > l2-p2) return true;
-    else if (l1-p1 == l2-p2) return (p1 < p2);
-    return false;
+void find_bridges() {
+    timer = 0;
+    visited.assign(n, false);
+    tin.assign(n, -1);
+    low.assign(n, -1);
+    for (int i = 0; i < n; ++i) {
+        if (!visited[i])
+            dfs(i);
+    }
 }
 
 int main() {
 	ios_base::sync_with_stdio(0); cin.tie(0); cout.tie(0);
-	cin >> n;
-    int l, p;
-    for (int i=0; i<n; ++i) {
-        cin >> l >> p;
-        t.pb(mp(l, p));
-    }
-    sort(all(t), cmp);
-    // for (pii pr: t) cout << pr.fi << " " << pr.se << nl;
-    cout << solve() << nl;
+	cin >> n >> m;
+	adj.assign(n, vi());
+	for (int i=0; i<m; ++i) {
+		int u, v; cin >> u >> v;
+		--u; --v;
+		adj[u].pb(v);
+		adj[v].pb(u);
+	}
+	find_bridges();
+	cout << ans.size() << nl;
+	set<pii>::iterator it;
+	for (it = ans.begin(); it != ans.end(); ++it) {
+		cout << it->first+1 << ' ' << it->second+1 << nl;
+	}
 	return 0;
 }

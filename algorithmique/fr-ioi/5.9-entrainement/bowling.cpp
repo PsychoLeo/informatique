@@ -1,6 +1,6 @@
 /*
 * Author:  Léopold Bernard
-* Created: 13/10/2024 13:57:01
+* Created: 13/10/2024 15:11:44
 */
 
 #include <cstdio>
@@ -57,41 +57,43 @@ typedef vector<vector<long long>> vvl;
 #define MOD 1000000007
 #define INF (int)1e9
 
-int n;
-vector<pii> t;
+int l, q, n;
+map<int, int> quilles;
 
-int solve() {
+void printMap() {
+    for (auto it = quilles.begin(); it != quilles.end(); ++it) {
+        cout << it->first << " " << it->second << nl;
+    }
+}
+
+int count(int lo, int hi) {
     int ans = 0;
-    int lastUsed = INF;
-    for (int i=0; i<n; ++i) {
-        pii pr = t[i];
-        int l = pr.fi, p = pr.se;
-        if (lastUsed-p >= 0) {
-            ans++; lastUsed = min(l-p, lastUsed-2*p);
-        }
+    map<int, int>::iterator it_left = quilles.lower_bound(lo);
+    if (it_left == quilles.end()) return 0;
+    map<int, int>::iterator it_right = quilles.upper_bound(hi);
+    if (it_right == quilles.begin()) return 0;
+    for (auto it = it_left; it != it_right; it = quilles.erase(it)) {
+        ans += it->second;
     }
     return ans;
 }
 
-bool cmp(pii pair1, pii pair2) {
-    // returns true iff p1 < p2
-    int l1 = pair1.fi, p1 = pair1.se;
-    int l2 = pair2.fi, p2 = pair2.se;
-    if (l1-p1 > l2-p2) return true;
-    else if (l1-p1 == l2-p2) return (p1 < p2);
-    return false;
-}
-
 int main() {
 	ios_base::sync_with_stdio(0); cin.tie(0); cout.tie(0);
-	cin >> n;
-    int l, p;
-    for (int i=0; i<n; ++i) {
-        cin >> l >> p;
-        t.pb(mp(l, p));
+	cin >> l >> q;
+    int x;
+    for (int i=0; i<q; ++i) {
+        cin >> x;
+        if (quilles.find(x) == quilles.end()) quilles[x] = 1;
+        else quilles[x]++;
     }
-    sort(all(t), cmp);
-    // for (pii pr: t) cout << pr.fi << " " << pr.se << nl;
-    cout << solve() << nl;
+    int ray, b;
+    cin >> n;
+    for (int i=0; i<n; ++i) {
+        // printMap();
+        cin >> ray >> b;
+        cout << count(b-ray, b+ray) << nl;
+
+    }
 	return 0;
 }

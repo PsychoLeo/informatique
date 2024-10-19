@@ -1,6 +1,6 @@
 /*
 * Author:  Léopold Bernard
-* Created: 13/10/2024 13:57:01
+* Created: 18/10/2024 17:25:34
 */
 
 #include <cstdio>
@@ -32,6 +32,13 @@ using namespace std;
 #define sz(x) (int)(x).size()
 #define nl "\n"
 
+template<class T> inline bool chmax(T& a, T b) { if (a < b) { a = b; return 1; } return 0; }
+template<class T> inline bool chmin(T& a, T b) { if (a > b) { a = b; return 1; } return 0; }
+
+template<class T> long long sum(const T& a){ return accumulate(a.begin(), a.end(), 0LL); }
+template<class T> auto min(const T& a){ return *min_element(a.begin(), a.end()); }
+template<class T> auto max(const T& a){ return *max_element(a.begin(), a.end()); }
+
 
 typedef vector<int> vi;
 typedef vector<double> vd;
@@ -57,41 +64,32 @@ typedef vector<vector<long long>> vvl;
 #define MOD 1000000007
 #define INF (int)1e9
 
-int n;
-vector<pii> t;
-
-int solve() {
-    int ans = 0;
-    int lastUsed = INF;
-    for (int i=0; i<n; ++i) {
-        pii pr = t[i];
-        int l = pr.fi, p = pr.se;
-        if (lastUsed-p >= 0) {
-            ans++; lastUsed = min(l-p, lastUsed-2*p);
-        }
-    }
-    return ans;
-}
-
-bool cmp(pii pair1, pii pair2) {
-    // returns true iff p1 < p2
-    int l1 = pair1.fi, p1 = pair1.se;
-    int l2 = pair2.fi, p2 = pair2.se;
-    if (l1-p1 > l2-p2) return true;
-    else if (l1-p1 == l2-p2) return (p1 < p2);
-    return false;
-}
-
 int main() {
 	ios_base::sync_with_stdio(0); cin.tie(0); cout.tie(0);
-	cin >> n;
-    int l, p;
-    for (int i=0; i<n; ++i) {
-        cin >> l >> p;
-        t.pb(mp(l, p));
+	ll n; cin >> n;
+    if (n % 4 == 1 || n%4 == 2) cout << "NO" << nl;
+    else {
+        ll obj = n*(n+1)/4;
+        vll g1, g;
+        for (int i=1; i<=n; ++i) g.pb(i);
+        ll s = 0;
+        ll chosen = 0;
+        while (s + g.back() <= obj) {
+            s += g.back();
+            g1.pb(g.back());
+            g.pop_back();
+        }
+        if (obj-s > 0) {
+            chosen = obj-s;
+            g1.pb(chosen);
+        }
+        cout << "YES" << nl;
+        cout << sz(g1) << nl;
+        for (int x: g1) cout << x << ' ';
+        cout << nl;
+        cout << sz(g) - (chosen > 0) << nl;
+        for (int a: g) if (a != chosen) cout << a << ' ';
+        cout << nl;
     }
-    sort(all(t), cmp);
-    // for (pii pr: t) cout << pr.fi << " " << pr.se << nl;
-    cout << solve() << nl;
 	return 0;
 }
