@@ -65,48 +65,63 @@ typedef vector<vector<long long>> vvl;
 #define INF (int)1e9
 
 int n, m; 
-vector<vector<pii>> dp;
+vvi dp;
+vector<pii> points;
 
-void print() {
+void printdp() {
+    cout << "DP array :" << nl;
     for (int i=0; i<=m; ++i) {
         for (int j=0; j<=m; ++j) {
-            cout << '(' << dp[i][j].fi << ',' << dp[i][j].se << ')' << ' ';
+            cout << dp[i][j] << ' ';
         }
         cout << nl;
     }
 }
 
+void printPoints() {
+    cout << "Points array : "<< nl;
+    for (pii &p : points) cout << '(' << p.fi << ',' << p.se <<')' << ' ';
+    cout << nl;
+}
+
 int solve() {
-    int ans = 0;
-    int i = 0;
-    for (int iter = 0; iter <= n; ++iter) {
-        int r = 0; if (iter < n) cin >> r;
-        if (r == 0) {
-            for (int j=1; j<=m; ++j) dp[i][j].fi += dp[i][j-1].fi;
-            for (int j=m-1; j>=0; --j) dp[i][j].se += dp[i][j+1].se;
-            ++i;
+    int i = 0; // zero count
+    for (int l=0; l<=n; ++l) {
+        int r=0; if (l<n) cin >> r;
+        if (r > 0) {
+            if (r <=i) points[r].fi++;
         }
-        else if (r > 0) {
-            if (r <= i) dp[i][r].fi++;
+        else if (r < 0) {
+            if (i+r>=0) points[i+r].se++;
         }
         else {
-            r = abs(r);
-            if (r <= i) dp[i][i-r].se++;
+            // printPoints();
+            if (i > 0) {
+                for (int j=1; j<=i; ++j) points[j].fi += points[j-1].fi;
+                for (int j=i-1; j>=0; --j) points[j].se += points[j+1].se;
+
+                for (int j=1; j<=i; ++j) 
+                dp[i][j] = points[j].fi + points[j].se + max
+                (
+                    dp[i-1][j-1], 
+                    dp[i-1][j]
+                );
+                dp[i][0] = points[0].fi + points[0].se + dp[i-1][0];
+            }
+            // printPoints();
+            points.assign(m+1, mp(0, 0));
+            ++i;
         }
     }
-    print();
-    for (int k=0; k<=m; ++k) {
-        int s = 0;
-        for (int j = 0; j<=m; ++j) s += dp[j][k].fi + dp[j][k].se;
-        ans = max(ans, s);
-    }
-    return ans;
+    // printdp();
+    return max(dp[m]);
 }
 
 int main() {
 	ios_base::sync_with_stdio(0); cin.tie(0); cout.tie(0);
 	cin >> n >> m;
-    dp.assign(m+1, vector<pii>(m+1, mp(0, 0)));
+    dp.assign(m+1, vi(m+1, 0));
+    points.assign(m+1, mp(0, 0));
     cout << solve() << nl;
 	return 0;
 }

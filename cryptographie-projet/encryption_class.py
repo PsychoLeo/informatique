@@ -56,6 +56,12 @@ class Encryption :
         # j = (y ^ (x + (h-1) // 2))
         return None
     
+    def f_encr() :
+        pass
+
+    def f_decr() :
+        pass
+    
 
 e = Encryption()
 # print(e.blocks)

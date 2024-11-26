@@ -4,7 +4,7 @@ import os, sys
 import hashlib
     
 
-lena_colors = Img("lena-colors.jpg", 'RGB')
+lena_colors = Img(".input_img_dir/lena-colors.jpg", 'RGB')
 # lena_colors.create_inverted()
 
 encryptor = Encryption()

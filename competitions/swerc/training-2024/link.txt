@@ -1,0 +1,1 @@
+https://codeforces.com/problemset?tags=combine-tags-by-or,data%20structures,strings,hashing,string%20suffix%20structures,1500-2000

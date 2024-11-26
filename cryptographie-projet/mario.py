@@ -7,12 +7,7 @@ def pn(a,b,c,x):
    return (a + b*x + c*x**2)%256
 
 def digits(x):
-   if x<10:
-       return 0,0,x
-   if x<100 :
-       return 0, x//10, x//100
-   else :
-       return x%100, x//10, x//100
+   return (x//100)%10, (x//10)%10, x%10
 
 #XOR est reversible
 
@@ -116,9 +111,9 @@ def encryption():
 
    for i in range(width):
        for j in range(height):
-           r,g,b,p = input_image.getpixel((i,j))
-           r2,g2,b2 = f_encr(r,g,b,i,j)
-           pixel_map[i, j] = (r2, g2, b2)
+            r,g,b,p = input_image.getpixel((i,j))
+            r2,g2,b2 = f_encr(r,g,b,i,j)
+            pixel_map[i, j] = (r2, g2, b2)
    input_image.save("testc.png", format="png")
 
 
