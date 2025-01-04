@@ -90,7 +90,38 @@ def new_f_decr(r,g,b,i,j):
 
 def f_encr(r,g,b,i,j):
    s = f_abs(i,j)
-   return (13*r+key[s%64]+s)%256,(17*g+key[(s+1)%64]+s)%256,(23*b+key[(s+2)%64]+s)%256
+   # return (13*r+key[s%64]+s)%256,(17*g+key[(s+1)%64]+s)%256,(23*b+key[(s+2)%64]+s)%256
+
+   # Avant, on faisait avec des fonctions directement (sans matrices) de f_abs(i, j) 
+
+   # on veut transformer (r, g, b) en (r', g', b') avec des matrices 
+   # idée : on construit à chaque fois notre matrice à partir de la clé et de s, ce qui constitue le processus difficile à inverser
+
+   M = [[1, 2], [1, 3]]
+
+   # ou sinon (r', g', b') = M (r, g, b) avec M inversible dans M_3(Z)
+
+   # comment générer une matrice inversible à partir de deux entiers ?
+   # on peut prender dict[f(i, j, key)%grand_entier] avec dict constitué d'un grand nombre de matrices inversibles de M_3(Z) (on évitera d'avoir deux matrices qui sont l'inverse l'une de l'autre dans le dictionnaire)
+
+   # pour chaque pixel, on veut lui appliquer une matrice choisie selon dict[f(i, j, key)%grand_entier]
+   # grand_entier correspond aux nombres de matrices inversibles de Mn(Z) que l'on aura générées
+
+   # Pour 5 valeurs possibles, on trouve environ 1000 valeurs 
+
+   # Problème : conditionnement de nos matrices générées semble être trop petit
+   # on a fait avec s = f_abs(i, j) et on prend une matrice (indice dans la liste des matrices) selon une fonction de s
+
+   # Pistes d'amélioration :
+   # -> Augmenter le nombre de matrices (ici on avait 120) inversibles
+   # -> Trouver des fonctions plus complexes dépendant de s pour calculer le terme que l'on va choisir dans notre suite de matrices
+
+listInv = []
+
+I3 = [[1, 0, 0], 
+      [0, 1, 0],
+      [0, 0, 1]]
+
 
 #multiplier par un entier premier avec 256 c'est pas mal
 

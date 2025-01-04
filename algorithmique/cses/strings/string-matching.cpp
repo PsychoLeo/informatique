@@ -61,26 +61,59 @@ typedef vector<vector<long long>> vvl;
 #define debug(x)
 #endif
 
-#define MOD 1000000007
+#define MOD 100000007
 #define INF (int)1e9
 
-int p = 31;
+ll p = 31;
+ll pp = 43;
 string s, t;
+int n, m;
+ll invp, invpp;
 
-ll binPow(ll a, int n) {
+ll binPow(ll a, ll r) {
     ll ans = 1;
-    while (n) {
-        if (n % 2) {
+    while (r) {
+        if (r % 2) {
             ans = (ans * a) % MOD;
         }
         a = (a * a) % MOD;
-        n /= 2;
+        r /= 2;
     }
     return ans;
 }
 
-ll hash(string s) {
-    for (int i=0; i<sz(s)
+int solve() {
+    if (n < m) return 0;
+    int c = 0;
+    ll v = 0;
+    ll currh = 0;
+    ll currhp = 0;
+    ll vp = 0;
+    ll pow = 1;
+    ll powp = 1;
+    for (int i=0; i<m; ++i) {
+        v = (v + (t[i]-'a') * pow) % MOD;
+        vp = (vp + (t[i]-'a') * powp) % MOD;
+        currh = (currh + (s[i]-'a') * pow) % MOD;
+        currhp = (currhp + (s[i]-'a') * powp) % MOD;
+        pow = (pow * p) % MOD;
+        powp = (powp * pp) % MOD;
+    }
+    pow = (pow * invp) % MOD;
+    powp = (powp * invpp) % MOD;
+    if (currh == v && currhp == vp) c++;
+    for (int i=m; i<n; ++i) {
+        currh -= (s[i-m]-'a');
+        currh = ((currh + MOD) % MOD + MOD) % MOD;
+        currh = (currh * invp) % MOD;
+        currh = (currh + pow * (s[i]-'a')) % MOD;
+        currhp -= (s[i-m]-'a');
+        currhp = ((currhp + MOD) % MOD + MOD) % MOD;
+        currhp = (currhp * invpp) % MOD;
+        currhp = (currhp + powp * (s[i]-'a')) % MOD;
+        if (currh == v && currhp == vp) c++;
+    }
+    return c;
 }
 
 
@@ -88,5 +121,9 @@ ll hash(string s) {
 int main() {
 	ios_base::sync_with_stdio(0); cin.tie(0); cout.tie(0);
 	cin >> s >> t;
+    n = sz(s); m = sz(t);
+    invp = binPow(p, MOD-2);
+    invpp = binPow(pp, MOD-2);
+    cout << solve() << nl;
 	return 0;
 }

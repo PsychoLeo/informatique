@@ -31,7 +31,7 @@ Here is a link to my profile page : http://www.france-ioi.org/user/perso.php?sLo
 - **Mathematical problems (combinatorics, number theory)**
 - **Dynamic programming**
 
-What I love me about CP is the search for solutions to problems and optimization, which can be found on a mathematical olympiads page I really like: https://www.mathraining.be/. Figuring out a solution little by little and getting a program that passes all tests is a satisfaction that is difficult to find elsewhere.
+What I love me about CP is the search for solutions to problems and optimization, which can be found on a mathematical olympiads page I really like: https://www.mathraining.be/ (where I am in the 2% best of the platform). Figuring out a solution little by little and getting a program that passes all tests is a satisfaction that is difficult to find elsewhere.
 
 In 2020, we set up an algorithmic club at our school with a friend and met regularly by videoconference to implement algorithms or carry out projects (whose source code you can access here). I took over the competitive programming association at Télécom Paris during the 2024/2025 year.
 
